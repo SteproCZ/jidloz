@@ -9,8 +9,9 @@ export class OptionCategory extends React.Component {
         }
     }
 
-    handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+    handleChange = async (event) => {
+        await this.setState({[event.target.name]: event.target.value});
+        this.props.onChange(this.state);
     }
 
     getCategory = () => {

@@ -24,8 +24,8 @@ var UserProfile = (function() {
         localStorage.setItem('username',setUsername);
     };
 
-    var isProducer = function() {
-        return role.equals("ROLE_PRODUCER");
+    var isUser = function() {
+        return role.equals("ROLE_USER");
     };
 
     var getRole = function() {

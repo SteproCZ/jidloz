@@ -56,7 +56,6 @@ public class FoodController {
     @Transactional
     @PostMapping("/removeFoodById")
     public void removeFoodById(@RequestBody int id) {
-        System.out.println(id);
         foodDAO.removeFoodById(id);
     }
 }

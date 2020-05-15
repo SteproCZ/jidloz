@@ -1,6 +1,7 @@
 import React from 'react';
 import {Food} from "./Food";
 import UserProfile from "./UserProfile";
+import {OptionCategory} from "./OptionCategory";
 
 
 
@@ -8,8 +9,10 @@ export class ListFood extends React.Component {
     constructor() {
         super();
         this.state = {
+            category: "All",
             listFood: []
         }
+        this.refCategory = React.createRef();
     }
 
     componentDidMount() {
@@ -19,14 +22,34 @@ export class ListFood extends React.Component {
     fetchList = () =>{
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json'},
+            body: this.state.category
         };
-        fetch('http://localhost:8080/getAllFood', requestOptions)
-            .then(response => response.json())
-            .then(data =>
-                this.setState({
-                    listFood: data
-                }));
+
+        if(this.state.category === "All"){
+            fetch('http://localhost:8080/getAllFood', requestOptions)
+                .then(response => response.json())
+                .then(data =>
+                    this.setState({
+                        listFood: data
+                    }));
+        }else{
+            fetch('http://localhost:8080/findAllByCategory', requestOptions)
+                .then(response => response.json())
+                .then(data =>
+                    this.setState({
+                        listFood: data
+                    }));
+        }
+
+
+    }
+
+    onChangeCategory = async () => {
+        await this.setState({
+            category: this.refCategory.current.getCategory()
+        });
+        this.fetchList();
     }
 
     onChangeHandler = (evt, key) => {
@@ -89,7 +112,8 @@ export class ListFood extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <h3>All Food</h3>
+                <h3>Just choose</h3>
+                <OptionCategory ref={this.refCategory}  onChange={this.onChangeCategory}/>
                 {this.state.listFood.map((value, index) =>
                     <div key={index}>
                         <Food key={index} name={value.name} description={value.description} price={value.price}/>
