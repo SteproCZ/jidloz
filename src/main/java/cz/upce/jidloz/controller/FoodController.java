@@ -26,6 +26,18 @@ public class FoodController {
         foodDAO.save(food);
     }
 
+    @Transactional
+    @PostMapping("/updateFood")
+    public void updateFood(@RequestBody Food food) {
+        foodDAO.removeFoodById(food.getId());
+        foodDAO.save(food);
+    }
+
+    @PostMapping("/getFoodById")
+    public Food get(@RequestBody int id) {
+        return foodDAO.findById(id);
+    }
+
     @PostMapping("/getAllFood")
     public List<Food> getAllFood() {
         return foodDAO.findAll();
@@ -36,12 +48,15 @@ public class FoodController {
         return foodDAO.findAllByIdProducer(idProducer);
     }
 
+    @PostMapping("/findAllByCategory")
+    public List<Food> findAllByCategory(@RequestBody String category) {
+        return foodDAO.findAllByCategory(category);
+    }
+
     @Transactional
     @PostMapping("/removeFoodById")
     public void removeFoodById(@RequestBody int id) {
+        System.out.println(id);
         foodDAO.removeFoodById(id);
     }
-
-
-
 }

@@ -27,7 +27,8 @@ export class ProducerListFood extends React.Component {
         const name = food.name;
         const description = food.description;
         const price = food.price;
-        const foodResult = {id, idProducer, name, description, price};
+        const category = food.category;
+        const foodResult = {id, idProducer, name, description, price, category};
 
         const requestOptions = {
             method: 'POST',
@@ -40,7 +41,6 @@ export class ProducerListFood extends React.Component {
     }
 
     fetchList = () =>{
-
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

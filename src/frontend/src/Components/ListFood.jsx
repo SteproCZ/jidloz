@@ -1,5 +1,7 @@
 import React from 'react';
 import {Food} from "./Food";
+import UserProfile from "./UserProfile";
+
 
 
 export class ListFood extends React.Component {
@@ -11,6 +13,10 @@ export class ListFood extends React.Component {
     }
 
     componentDidMount() {
+        this.fetchList();
+    }
+
+    fetchList = () =>{
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'}
@@ -27,9 +33,57 @@ export class ListFood extends React.Component {
         this.setState({[key]: evt.target.value})
     }
 
-    onButtonReserve() {
-        return function (p1: React.MouseEvent<HTMLButtonElement>) {
+    removeFood = async (id) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: id
         };
+
+        await fetch('http://localhost:8080/removeFoodById', requestOptions)
+            .then(value => this.fetchList());
+    }
+
+    onButtonReserve = async (idFood) => {
+
+        var food;
+        //load
+        var requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(idFood)
+        };
+
+        await fetch('http://localhost:8080/getFoodById', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                food = data
+                const id = food.id;
+                const idProducer = food.idProducer;
+                const idUser = Number(UserProfile.getId());
+                const name = food.name;
+                const description = food.description;
+                const price = food.price;
+                food = {id, idUser,  idProducer, name, description, price};
+            });
+
+        //remove
+        requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: food.id
+        };
+        await fetch('http://localhost:8080/removeFoodById', requestOptions)
+            .then(value => this.fetchList());
+
+        //save
+        requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(food)
+        };
+        await fetch('http://localhost:8080/addFood', requestOptions)
+            .then(value => this.fetchList());
     }
 
     render() {
@@ -39,7 +93,7 @@ export class ListFood extends React.Component {
                 {this.state.listFood.map((value, index) =>
                     <div key={index}>
                         <Food key={index} name={value.name} description={value.description} price={value.price}/>
-                        <button onClick={this.onButtonReserve()}>Reserve</button>
+                        <button onClick={(evt) => this.onButtonReserve(value.id)}>Reserve</button>
                     </div>
                 )}
             </React.Fragment>

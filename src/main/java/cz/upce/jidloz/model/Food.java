@@ -28,4 +28,6 @@ public class Food implements Serializable {
     private String description;
     @Column
     private int price;
+    @Column
+    private String category;
 }

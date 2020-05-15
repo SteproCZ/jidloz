@@ -1,20 +1,26 @@
 import React from 'react';
+import {OptionCategory} from "./OptionCategory";
 
 
 export class AddFood extends React.Component {
-    PRODUCER: "ROLE_PRODUCER";
     constructor() {
         super();
         this.state = {
             id: "",
             idProducer: "",
+            idUser: "",
             name: "",
             description: "",
-            price: 0
+            price: 0,
+            category: ""
         }
+        this.refCategory = React.createRef();
     }
 
-    onButtonAddFood = () => {
+    onButtonAddFood = async () => {
+        await this.setState({
+            category: this.refCategory.current.getCategory()
+        });
         this.props.onAdd(this.state);
     }
 
@@ -27,6 +33,7 @@ export class AddFood extends React.Component {
         return (
             <React.Fragment>
                 <h3>Add Food</h3>
+                <OptionCategory ref={this.refCategory}/>
                 <div>
                     <label htmlFor="add-food-name">Name</label>
                     <input type="text" name="add-food-name" value={this.state.name}

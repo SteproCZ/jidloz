@@ -22,6 +22,10 @@ var ProducerProfile = (function() {
         localStorage.setItem('name', name);
     };
 
+    var isProducer = function() {
+        return role.equals("ROLE_PRODUCER");
+    };
+
     var getRole = function() {
         return role;
     };
