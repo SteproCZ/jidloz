@@ -11,7 +11,6 @@ export class ProducerListFood extends React.Component {
         this.state = {
             listFood: []
         }
-        //this.fetchList = this.fetchList.bind(this);
     }
 
     componentDidMount() {
@@ -30,14 +29,6 @@ export class ProducerListFood extends React.Component {
         const price = food.price;
         const category = food.category;
         const foodResult = {id, idProducer, name, description, price, category};
-        /*
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(foodResult)
-        };
-        await fetch('http://localhost:8080/addFood', requestOptions)
-            .then(value => this.fetchList());*/
 
         let url = 'http://localhost:8080/addFood';
 
