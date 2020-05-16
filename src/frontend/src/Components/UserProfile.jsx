@@ -1,42 +1,41 @@
-var UserProfile = (function() {
+const UserProfile = (function () {
 
 
-    var id = localStorage.getItem('id');
-    var username = localStorage.getItem('username');
-    var role = localStorage.getItem('role');
+    let id = localStorage.getItem('id');
+    let username = localStorage.getItem('username');
+    let role = localStorage.getItem('role');
 
 
-    var getId = function() {
+    const getId = function () {
         return id;
     };
 
-    var setId = function(newId) {
+    const setId = function (newId) {
         id = newId;
-        localStorage.setItem('id',id);
+        localStorage.setItem('id', id);
     };
 
-    var getUsername = function() {
+    const getUsername = function () {
         return username;
     };
 
-    var setUsername = function(newUsername) {
+    const setUsername = function (newUsername) {
         username = newUsername;
-        localStorage.setItem('username',setUsername);
+        localStorage.setItem('username', setUsername);
     };
 
-    var isUser = function() {
+    const isUser = function () {
         return role.equals("ROLE_USER");
     };
 
-    var getRole = function() {
+    const getRole = function () {
         return role;
     };
 
-    var setRole = function(newRole) {
+    const setRole = function (newRole) {
         role = newRole;
-        localStorage.setItem('role',role);
+        localStorage.setItem('role', role);
     };
-
 
 
     return {

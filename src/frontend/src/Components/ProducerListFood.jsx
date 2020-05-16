@@ -2,6 +2,7 @@ import React from 'react';
 import {Food} from "./Food";
 import UserProfile from "./UserProfile";
 import {AddFood} from "./AddFood";
+import FetchUtil from "./FetchUtil";
 
 
 export class ProducerListFood extends React.Component {
@@ -29,24 +30,27 @@ export class ProducerListFood extends React.Component {
         const price = food.price;
         const category = food.category;
         const foodResult = {id, idProducer, name, description, price, category};
-
+        /*
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(foodResult)
         };
-
         await fetch('http://localhost:8080/addFood', requestOptions)
+            .then(value => this.fetchList());*/
+
+        let url = 'http://localhost:8080/addFood';
+
+        await FetchUtil.fetchPost(url, JSON.stringify(foodResult))
             .then(value => this.fetchList());
+
+
     }
 
     fetchList = () =>{
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(UserProfile.getId())
-        };
-        fetch('http://localhost:8080/getAllFoodByIdProducer', requestOptions)
+        let url = 'http://localhost:8080/getAllFoodByIdProducer';
+
+        FetchUtil.fetchPost(url, JSON.stringify(UserProfile.getId()))
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -56,13 +60,9 @@ export class ProducerListFood extends React.Component {
     }
 
     onButtonRemove = async (id) => {
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: id
-        };
 
-        await fetch('http://localhost:8080/removeFoodById', requestOptions)
+        let url = 'http://localhost:8080/removeFoodById';
+        await FetchUtil.fetchPost(url, id)
             .then(value => this.fetchList());
     }
 

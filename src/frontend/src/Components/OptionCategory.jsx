@@ -1,11 +1,12 @@
 import React from 'react';
+import {Food} from "./Food";
 
 
 export class OptionCategory extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            category: "Food"
+            category: props.categories[0]
         }
     }
 
@@ -20,14 +21,14 @@ export class OptionCategory extends React.Component {
 
     render() {
         return (
-            <ReactExample name="category" multiple={this.state.selectedCategory} handleChange={this.handleChange} />
+           <ReactExample name="category" categories={this.props.categories} multiple={this.state.category} handleChange={this.handleChange} />
         )
     }
 }
 
-export const ReactExample = ({ name, value, handleChange }) => (
-    <select name={name} value={value} onChange={handleChange}>
-        <option value="Food">Food</option>
-        <option value="Meal">Meal</option>
-    </select>
-)
+export const ReactExample = ({name, categories, handleChange}) => (
+    <select name={name} onChange={handleChange}>
+        {categories.map((value, index) =>
+            <option key={index} name={value}>{value}</option>
+        )}
+    </select>);

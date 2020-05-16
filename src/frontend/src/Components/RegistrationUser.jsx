@@ -1,4 +1,5 @@
 import React from 'react';
+import FetchUtil from "./FetchUtil";
 
 export class RegistrationUser extends React.Component {
     constructor() {
@@ -23,13 +24,8 @@ export class RegistrationUser extends React.Component {
 
         const user = {firstName, lastName, username, password, email, phone};
 
-        console.log(JSON.stringify(user));
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(user)
-        };
-        fetch('http://localhost:8080/registrationUser', requestOptions)
+        let url = 'http://localhost:8080/registrationUser';
+        FetchUtil.fetchPost(url, JSON.stringify(user))
             .then(response => response.json())
             .then(data => {
                 console.log(data)

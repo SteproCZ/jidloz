@@ -1,4 +1,5 @@
 import React from 'react';
+import FetchUtil from "./FetchUtil";
 
 export class RegistrationProducer extends React.Component {
 
@@ -27,18 +28,11 @@ export class RegistrationProducer extends React.Component {
         const houseNumber = this.state.houseNumber;
         const producer = {name, email, phone, password, city, postalCode, street, houseNumber};
 
-        console.log(JSON.stringify(producer));
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(producer)
-        };
-        fetch('http://localhost:8080/registrationProducer', requestOptions)
+        let url = 'http://localhost:8080/registrationProducer';
+        FetchUtil.fetchPost(url, JSON.stringify(this.state.name))
             .then(response => response.json())
             .then(data => {
-                //přihlášen...
                 console.log(data)
-                //profile.setId(data.id);
             });
     }
 
