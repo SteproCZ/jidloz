@@ -18,11 +18,14 @@ export class AddFood extends React.Component {
     }
 
     onButtonAddFood = async () => {
+        await this.setState({
+            category: this.refCategory.current.getCategory()
+        });
         this.props.onAdd(this.state);
     }
 
-    onChangeCategory = async () => {
-        await this.setState({
+    onChangeCategory = () => {
+        this.setState({
             category: this.refCategory.current.getCategory()
         });
     }
