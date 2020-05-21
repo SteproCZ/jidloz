@@ -6,6 +6,7 @@ import {RegistrationProducer} from "./Components/RegistrationProducer";
 import {ListFood} from "./Components/ListFood";
 import {ProducerListFood} from "./Components/ProducerListFood";
 
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,6 +15,7 @@ import {
     useRouteMatch,
     useParams
 } from "react-router-dom";
+import {Navbar} from "./Components/Navbar";
 
 //grovy - <version>2.0-M2-groovy-2.5</version>
 // <packaging>war</packaging>
@@ -23,75 +25,33 @@ function App() {
     return (
         <Router>
             <div className="App">
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/registration">Registration</Link>
-                    </li>
-                    <li>
-                        <Link to="/topics">Topics</Link>
-                    </li>
 
-                    <li>
-                        <Link to="/producer">Producer</Link>
-                    </li>
-                    <li>
-                        <Link to="/user">User</Link>
-                    </li>
-                </ul>
+                <Navbar />
 
                 <Switch>
-                    <Route path="/login">
-                        <LoginFun />
-                    </Route>
-                    <Route path="/registration">
-                        <RegistrationFun />
-                    </Route>
-                    <Route path="/registration/User">
-                        <RegistrationUserFun />
-                    </Route>
-                    <Route path="/registration/Producer">
-                        <RegistrationProducerFun />
-                    </Route>
+                    <Route exact path="/" component={Main} />
 
-                    <Route path="/producer">
-                        <ListFoodProducerFun />
-                    </Route>
+                    <Route path="/about" component={About} />
 
-                    <Route path="/user">
-                        <ListFoodFun />
-                    </Route>
-                    <Route path="/topics">
-                        <Topics/>
-                    </Route>
-                    <Route path="/">
-                        <Home/>
-                    </Route>
+                    <Route path="/login" component={Login} />
+
+                    <Route path="/registration" component={Registration} />
+
+                    <Route path="/producer" component={ListFoodProducerFun} />
+
+                    <Route path="/user" component={ListFoodFun} />
                 </Switch>
             </div>
         </Router>
     );
 }
 
-function Home() {
-    return <h2>Home</h2>;
+function Main() {
+    return <h2>Main</h2>;
 }
 
-function LoginFun() {
-    return (
-        <div>
-            <h2>Login</h2>
-            <Login />
-        </div>
-    );
-}
 
-function RegistrationFun() {
+function Registration() {
     return (
         <div>
             <h2>Registration</h2>
@@ -99,31 +59,9 @@ function RegistrationFun() {
             <br />
             <Link to="/registration/producer">Producer</Link>
             <Switch>
-                <Route path="/registration/user">
-                    <RegistrationUserFun />
-                </Route>
-                <Route path="/registration/producer">
-                    <RegistrationProducerFun />
-                </Route>
+                <Route path="/registration/user" component={RegistrationUser} />
+                <Route path="/registration/producer" component={RegistrationProducer} />
             </Switch>
-        </div>
-    );
-}
-
-function RegistrationUserFun() {
-    return (
-        <div>
-            <h2>Registration like User</h2>
-            <RegistrationUser />
-        </div>
-    );
-}
-
-function RegistrationProducerFun() {
-    return (
-        <div>
-            <h2>Registration like Producer</h2>
-            <RegistrationProducer />
         </div>
     );
 }
@@ -147,45 +85,13 @@ function ListFoodProducerFun() {
 }
 
 
-
-
-function Topics() {
-    let match = useRouteMatch();
-
+function About() {
     return (
         <div>
-            <h2>Topics</h2>
-
-            <ul>
-                <li>
-                    <Link to={`${match.url}/components`}>Components</Link>
-                </li>
-                <li>
-                    <Link to={`${match.url}/props-v-state`}>
-                        Props v. State
-                    </Link>
-                </li>
-            </ul>
-
-            {/* The Topics page has its own <Switch> with more routes
-          that build on the /topics URL path. You can think of the
-          2nd <Route> here as an "index" page for all topics, or
-          the page that is shown when no topic is selected */}
-            <Switch>
-                <Route path={`${match.path}/:topicId`}>
-                    <Topic/>
-                </Route>
-                <Route path={match.path}>
-                    <h3>Please select a topic.</h3>
-                </Route>
-            </Switch>
+            <h2>About</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
     );
-}
-
-function Topic() {
-    let {topicId} = useParams();
-    return <h3>Requested topic ID: {topicId}</h3>;
 }
 
 export default App;
