@@ -1,5 +1,4 @@
 import React from 'react';
-import {RadioButtonsLogin} from "./RadioButtonsLogin";
 import AuthService from "../service/AuthService";
 import LoggedProfile from "./LoggedProfile";
 
@@ -11,7 +10,6 @@ export class Login extends React.Component {
             username: "",
             password: ""
         }
-        this.refRadio = React.createRef();
     }
 
     login = (e) => {
@@ -52,9 +50,6 @@ export class Login extends React.Component {
                     <label htmlFor="login-password">Password</label>
                     <input type="text" name="login-password" value={this.state.password}
                            onChange={(evt) => this.onChangeHandler(evt, 'password')}/>
-                </div>
-                <div>
-                    <RadioButtonsLogin ref={this.refRadio}/>
                 </div>
                 <button /*onClick={this.onButtonLogin}*/ onClick={this.login}>Login</button>
             </React.Fragment>
