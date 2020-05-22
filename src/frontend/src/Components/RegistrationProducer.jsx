@@ -28,8 +28,15 @@ export class RegistrationProducer extends React.Component {
             });
     }
 
-    onChangeHandler = (evt, key) => {
-        this.setState({[key]: evt.target.value})
+
+
+    onChangeHandler = (evt, key)  => {
+        this.setState({
+            producer: {
+                ...this.state.producer,
+                [key]: evt.target.value
+            }
+        })
     }
 
     render() {
