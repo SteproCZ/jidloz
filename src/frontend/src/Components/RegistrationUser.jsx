@@ -27,7 +27,7 @@ export class RegistrationUser extends React.Component {
 
     onChangeHandler = (evt, key)  => {
         this.setState({
-            producer: {
+            user: {
                 ...this.state.user,
                 [key]: evt.target.value
             }
