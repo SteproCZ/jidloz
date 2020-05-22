@@ -1,7 +1,7 @@
 import React from 'react';
 import {RadioButtonsLogin} from "./RadioButtonsLogin";
 import AuthService from "../service/AuthService";
-import UserProfile from "./UserProfile";
+import LoggedProfile from "./LoggedProfile";
 import ProducerProfile from "./ProducerProfile";
 
 
@@ -21,9 +21,9 @@ export class Login extends React.Component {
         if(this.refRadio.current.getIsUser()){
             AuthService.login(credentials).then(res => {
                 if(res.data.status === 200){
-                    UserProfile.setUsername(res.data.result.username);
-                    UserProfile.setRole("");
-                    UserProfile.setId(res.data.result.id);
+                    LoggedProfile.removeRole();
+                    LoggedProfile.setIdUser(res.data.result.id);
+                    LoggedProfile.setRoleUser();
 
                     console.log(res.data.result);
 
@@ -35,9 +35,10 @@ export class Login extends React.Component {
         }else{
             AuthService.loginProducer(credentials).then(res => {
                 if(res.data.status === 200){
-                    ProducerProfile.setName(res.data.result.name);
-                    ProducerProfile.setRole(res.data.result.role);
-                    ProducerProfile.setId(res.data.result.id);
+                    LoggedProfile.removeRole();
+                    LoggedProfile.setIdProducer(res.data.result.id);
+                    LoggedProfile.setRoleProducer();
+
 
                     console.log(res.data.result);
 

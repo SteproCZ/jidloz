@@ -1,6 +1,6 @@
 import React from 'react';
 import {Food} from "./Food";
-import UserProfile from "./UserProfile";
+import LoggedProfile from "./LoggedProfile";
 import {AddFood} from "./AddFood";
 import FetchUtil from "./FetchUtil";
 
@@ -23,7 +23,7 @@ export class ProducerListFood extends React.Component {
 
     onButtonAddFood = async (food) => {
         const id = food.id;
-        const idProducer = UserProfile.getId();
+        const idProducer = LoggedProfile.getId();
         const name = food.name;
         const description = food.description;
         const price = food.price;
@@ -39,9 +39,9 @@ export class ProducerListFood extends React.Component {
     }
 
     fetchList = () =>{
-        let url = 'http://localhost:8080/getAllFoodByIdProducer';
+        let url = 'http://localhost:8080/getAllFoodByIdProducer?page=0&size=5';//...?page=0&size=5
 
-        FetchUtil.fetchPost(url, JSON.stringify(UserProfile.getId()))
+        FetchUtil.fetchPost(url, JSON.stringify(LoggedProfile.getId()))
             .then(response => response.json())
             .then(data => {
                 this.setState({

@@ -1,28 +1,36 @@
 import React from 'react';
 import {Food} from "./Food";
-import UserProfile from "./UserProfile";
+import LoggedProfile from "./LoggedProfile";
 import {OptionCategory} from "./OptionCategory";
 import FetchUtil from "./FetchUtil";
+import {PaginationComponent} from "./PaginationComponent";
+import {FoodComponent} from "./FoodComponent";
 
 export class ListFood extends React.Component {
     constructor() {
         super();
         this.state = {
             category: "All",
-            listFood: []
+            listFood: [],
+            activePage: 0,
+            totalPages: 0,
+            itemsCountPerPage: 0,
+            totalItemsCount: 0,
+            pageSize: 5
         }
         this.refCategory = React.createRef();
     }
 
     componentDidMount() {
-        this.fetchList();
+        this.fetchList(this.state.activePage);
     }
 
-    fetchList = () =>{
+    fetchList = (page) =>{
         let url;
 
         if(this.state.category === "All"){
-            url = 'http://localhost:8080/getAllFood';
+            //http://localhost:8080/getAllFood
+            url = 'http://localhost:8080/getAllFood?page='+page+'&size='+this.state.pageSize;
         }else{
             url = 'http://localhost:8080/findAllByCategory';
         }
@@ -31,7 +39,10 @@ export class ListFood extends React.Component {
             .then(response => response.json())
             .then(data =>
                 this.setState({
-                    listFood: data
+                    listFood: data.content,
+                    totalPages: data.totalPages,
+                    itemsCountPerPage: data.size,
+                    totalItemsCount: data.totalElements
                 }));
     }
 
@@ -39,7 +50,7 @@ export class ListFood extends React.Component {
         await this.setState({
             category: this.refCategory.current.getCategory()
         });
-        this.fetchList();
+        this.fetchList(this.state.activePage);
     }
 
     onChangeHandler = (evt, key) => {
@@ -50,7 +61,7 @@ export class ListFood extends React.Component {
         let url = 'http://localhost:8080/removeFoodById';
 
         await FetchUtil.fetchPost(url, id)
-            .then(value => this.fetchList());
+            .then(value => this.fetchList(this.state.activePage));
     }
 
     onButtonReserve = async (idFood) => {
@@ -65,7 +76,7 @@ export class ListFood extends React.Component {
                 food = data
                 const id = food.id;
                 const idProducer = food.idProducer;
-                const idUser = Number(UserProfile.getId());
+                const idUser = Number(LoggedProfile.getId());
                 const name = food.name;
                 const description = food.description;
                 const price = food.price;
@@ -75,13 +86,19 @@ export class ListFood extends React.Component {
         url = 'http://localhost:8080/removeFoodById';
 
         await FetchUtil.fetchPost(url, food.id)
-            .then(value => this.fetchList());
+            .then(value => this.fetchList(this.state.activePage));
 
         url = 'http://localhost:8080/addFood';
 
         await FetchUtil.fetchPost(url, JSON.stringify(food))
-            .then(value => this.fetchList());
+            .then(value => this.fetchList(this.state.activePage));
 
+    }
+
+    handlePageChange = (page) => {
+        page = page - 1;
+        this.setState({activePage: page});
+        this.fetchList(page)
     }
 
     render() {
@@ -89,12 +106,13 @@ export class ListFood extends React.Component {
             <React.Fragment>
                 <h3>Just choose</h3>
                 <OptionCategory ref={this.refCategory} categories={["All","Food","Meal"]} onChange={this.onChangeCategory}/>
-                {this.state.listFood.map((value, index) =>
-                    <div key={index}>
-                        <Food key={index} name={value.name} description={value.description} price={value.price}/>
-                        <button onClick={(evt) => this.onButtonReserve(value.id)}>Reserve</button>
-                    </div>
-                )}
+                <FoodComponent listFood={this.state.listFood}/>
+
+                <PaginationComponent activePage={this.state.activePage}
+                                     itemsCountPerPage={this.state.itemsCountPerPage}
+                                     totalItemsCount={this.state.totalItemsCount}
+                                     handlePageChange={this.handlePageChange}
+                />
             </React.Fragment>
         )
     }

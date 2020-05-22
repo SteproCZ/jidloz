@@ -59,8 +59,8 @@ public class ProducerServiceImpl implements UserDetailsService, ProducerService 
 
     @Override
     public Producer findById(int id) {
-        Optional<Producer> optionalUser = producerDAO.findById(id);
-        return optionalUser.isPresent() ? optionalUser.get() : null;
+        Optional<Producer> optionalProducer = producerDAO.findById(id);
+        return optionalProducer.isPresent() ? optionalProducer.get() : null;
     }
 
     @Override

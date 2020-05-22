@@ -1,6 +1,5 @@
 package cz.upce.jidloz.service.impl;
 
-
 import cz.upce.jidloz.dao.UserDAO;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {

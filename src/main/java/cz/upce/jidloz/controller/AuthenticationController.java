@@ -30,6 +30,8 @@ public class AuthenticationController {
     @RequestMapping(value = "/generate-token/{userType}", method = RequestMethod.POST)
     public ApiResponse<AuthToken> generateToken(@RequestBody LoginUser loginUser, @PathVariable int userType) throws AuthenticationException {
 
+        System.out.println(userType);
+
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
 
         final Producer producer;
@@ -38,7 +40,7 @@ public class AuthenticationController {
         final String name;
         final String role;
         final int id;
-
+        System.out.println(userType);
         if(userType == 0){
             user = userService.findOne(loginUser.getUsername());
             token = jwtTokenUtil.generateToken(user);
@@ -46,6 +48,7 @@ public class AuthenticationController {
             role = "ROLE_USER";
             id = user.getId();
         }else{
+            System.out.println("neco producer");
             producer = producerService.findOne(loginUser.getUsername());
             token = jwtTokenUtil.generateToken(producer);
             name = producer.getName();
