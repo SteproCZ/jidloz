@@ -2,7 +2,6 @@ import React from 'react';
 import {RadioButtonsLogin} from "./RadioButtonsLogin";
 import AuthService from "../service/AuthService";
 import LoggedProfile from "./LoggedProfile";
-import ProducerProfile from "./ProducerProfile";
 
 
 export class Login extends React.Component {
@@ -18,37 +17,20 @@ export class Login extends React.Component {
     login = (e) => {
         e.preventDefault();
         const credentials = {username: this.state.username, password: this.state.password};
-        if(this.refRadio.current.getIsUser()){
-            AuthService.login(credentials).then(res => {
-                if(res.data.status === 200){
-                    LoggedProfile.removeRole();
-                    LoggedProfile.setIdUser(res.data.result.id);
-                    LoggedProfile.setRoleUser();
 
-                    console.log(res.data.result);
+        AuthService.login(credentials).then(res => {
+            if (res.data.status === 200) {
+                LoggedProfile.removeRole();
+                LoggedProfile.setIdUser(res.data.result.id);
+                LoggedProfile.setRoleUser();
 
-                    this.setState({message: "successfully logged like user"});
-                }else {
-                    this.setState({message: res.data.message});
-                }
-            });
-        }else{
-            AuthService.loginProducer(credentials).then(res => {
-                if(res.data.status === 200){
-                    LoggedProfile.removeRole();
-                    LoggedProfile.setIdProducer(res.data.result.id);
-                    LoggedProfile.setRoleProducer();
+                console.log(res.data.result);
 
-
-                    console.log(res.data.result);
-
-                    this.setState({message: "successfully logged like producer"});
-                }else {
-                    this.setState({message: res.data.message});
-                }
-            });
-        }
-
+                this.setState({message: "successfully logged like user"});
+            } else {
+                this.setState({message: res.data.message});
+            }
+        });
 
 
     };
@@ -72,7 +54,7 @@ export class Login extends React.Component {
                            onChange={(evt) => this.onChangeHandler(evt, 'password')}/>
                 </div>
                 <div>
-                    <RadioButtonsLogin ref={this.refRadio} />
+                    <RadioButtonsLogin ref={this.refRadio}/>
                 </div>
                 <button /*onClick={this.onButtonLogin}*/ onClick={this.login}>Login</button>
             </React.Fragment>
@@ -80,8 +62,8 @@ export class Login extends React.Component {
     }
 }
 
-const styles= {
-    center :{
+const styles = {
+    center: {
         display: 'flex',
         justifyContent: 'center'
 

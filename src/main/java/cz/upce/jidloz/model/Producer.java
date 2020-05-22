@@ -13,22 +13,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Producer implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
     @Column
-    private String name;
-    @Column
-    private String email;
-    @Column
-    private String phone;
-    @Column
-    private String password;
-    @Column
+    private int idUser;
+    @Column(nullable = false)
     private String city;
-    @Column
+    @Column(nullable = false)
     private String postalCode;
-    @Column
+    @Column(nullable = false)
     private String street;
-    @Column
+    @Column(nullable = false)
     private String houseNumber;
 }

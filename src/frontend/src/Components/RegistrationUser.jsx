@@ -11,7 +11,8 @@ export class RegistrationUser extends React.Component {
                 username: "",
                 password: "",
                 email: "",
-                phone: ""
+                phone: "",
+                role: ""
             }
         }
     }

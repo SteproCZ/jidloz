@@ -59,6 +59,7 @@ public class UserController {
         boolean existsByPhone = UserDAO.existsByPhone(user.getPhone());
 
         user.setPassword(user.getPassword());
+        user.setRole("USER");
 
         if (existsByEmail || existsByPhone) {
             System.out.println("User exist!");

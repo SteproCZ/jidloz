@@ -25,7 +25,7 @@ import static cz.upce.jidloz.model.Constants.TOKEN_PREFIX;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   @Autowired
-  @Qualifier("producerService")
+  @Qualifier("userService")
   private UserDetailsService userDetailsService;
 
   @Autowired

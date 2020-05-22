@@ -50,10 +50,6 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(user.getUsername(), "ROLE_USER");
     }
 
-    public String generateToken(Producer producer) {
-        return doGenerateToken(producer.getName(), "ROLE_PRODUCER");
-    }
-
     private String doGenerateToken(String subject, String role) {
 
         Claims claims = Jwts.claims().setSubject(subject);

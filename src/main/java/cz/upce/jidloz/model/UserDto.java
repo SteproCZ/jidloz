@@ -9,6 +9,7 @@ public class UserDto {
     private String password;
     private String email;
     private String phone;
+    private String role;
 
     public String getEmail() {
         return email;
@@ -64,5 +65,13 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

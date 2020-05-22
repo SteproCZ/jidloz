@@ -1,5 +1,6 @@
 import React from 'react';
 import FetchUtil from "./FetchUtil";
+import LoggedProfile from "./LoggedProfile";
 
 export class RegistrationProducer extends React.Component {
 
@@ -7,20 +8,27 @@ export class RegistrationProducer extends React.Component {
         super();
         this.state = {
             producer: {
-                name: "",
-                email: "",
-                phone:"",
-                password: "",
                 city: "",
                 postalCode:"",
                 street: "",
-                houseNumber: ""
+                houseNumber: "",
+                idUser: 0
             }
         }
     }
 
-    onButtonRegistration = () => {
+    onButtonRegistration = async () => {
         let url = 'http://localhost:8080/registrationProducer';
+
+        await this.setState({
+            producer: {
+                ...this.state.producer,
+                idUser: LoggedProfile.getIdUser()
+            }
+        })
+
+        console.log(this.state.producer)
+
         FetchUtil.fetchPost(url, JSON.stringify(this.state.producer))
             .then(response => response.json())
             .then(data => {
@@ -42,31 +50,10 @@ export class RegistrationProducer extends React.Component {
             <React.Fragment>
                 <h3>Registration Producer</h3>
                 <div>
-                    <label htmlFor="producer-name">Name producer</label>
-                    <input type="text" name="producer-name" value={this.state.producer.name}
-                           onChange={(evt) => this.onChangeHandler(evt, 'name')}/>
-                </div>
-                <div>
-                    <label htmlFor="producer-email">e-mail</label>
-                    <input type="text" name="producer-email" value={this.state.producer.email}
-                           onChange={(evt) => this.onChangeHandler(evt, 'email')}/>
-                </div>
-                <div>
-                    <label htmlFor="user-phone">Phone</label>
-                    <input type="text" name="producer-phone" value={this.state.producer.phone}
-                           onChange={(evt) => this.onChangeHandler(evt, 'phone')}/>
-                </div>
-                <div>
-                    <label htmlFor="producer-password">Password</label>
-                    <input type="password" name="producer-password" value={this.state.producer.password}
-                           onChange={(evt) => this.onChangeHandler(evt, 'password')}/>
-                </div>
-                <div>
                     <label htmlFor="producer-city">City</label>
                     <input type="text" name="producer-city" value={this.state.producer.city}
                            onChange={(evt) => this.onChangeHandler(evt, 'city')}/>
                 </div>
-
                 <div>
                     <label htmlFor="user-postalCode">Postal code</label>
                     <input type="number" name="producer-postalCode" value={this.state.producer.postalCode}

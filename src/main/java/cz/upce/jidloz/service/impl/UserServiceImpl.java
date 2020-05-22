@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User save(UserDto user) {
-		System.out.println("USER");
 	    User newUser = new User();
 	    newUser.setUsername(user.getUsername());
 	    newUser.setFirstName(user.getFirstName());
@@ -81,6 +80,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 		newUser.setEmail(user.getEmail());
 		newUser.setPhone(user.getPhone());
+		newUser.setRole(user.getRole());
         return UserDAO.save(newUser);
     }
 }

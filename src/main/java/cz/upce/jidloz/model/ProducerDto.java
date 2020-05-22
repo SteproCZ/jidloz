@@ -3,54 +3,18 @@ package cz.upce.jidloz.model;
 import javax.persistence.Column;
 
 public class ProducerDto {
-    private int id;
-    private String name;
-    private String email;
-    private String phone;
-    private String password;
+    private int idUser;
     private String city;
     private String postalCode;
     private String street;
     private String houseNumber;
 
-    public int getId() {
-        return id;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public String getCity() {

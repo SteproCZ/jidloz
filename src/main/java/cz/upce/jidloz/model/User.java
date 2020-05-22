@@ -16,17 +16,18 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column
+    @Column(nullable = false)
     private String firstName;
-    @Column
+    @Column(nullable = false)
     private String lastName;
-    @Column
+    @Column(nullable = false, unique=true)
     private String username;
-    //@JsonIgnore
     @Column(nullable = false)
     private String password;
     @Column(nullable = false, unique=true)
     private String email;
     @Column(nullable = false, unique=true)
     private String phone;
+    @Column(nullable = false)
+    private String role;
 }
