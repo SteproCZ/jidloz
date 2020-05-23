@@ -12,7 +12,7 @@ public interface FoodDAO extends PagingAndSortingRepository<Food, Integer> {
     public Page<Food> findAll(Pageable pageable);
     //public List<Food> findAllByIdProducer(int idProducer);
     public Page<Food> findAllByIdProducer(int idProducer, Pageable pageable);
-    public List<Food> findAllByCategory(String category);
+    public Page<Food> findAllByCategory(String category, Pageable pageable);
     public void removeFoodById(int id);
     public Food findById(int id);
 }

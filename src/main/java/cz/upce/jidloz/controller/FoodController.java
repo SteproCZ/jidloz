@@ -61,8 +61,8 @@ public class FoodController {
     }
 
     @PostMapping("/findAllByCategory")
-    public List<Food> findAllByCategory(@RequestBody String category) {
-        return foodDAO.findAllByCategory(category);
+    public Page<Food> findAllByCategory(@RequestBody String category, Pageable pageable) {
+        return foodDAO.findAllByCategory(category, pageable);
     }
 
     @Transactional

@@ -29,10 +29,9 @@ export class ListFood extends React.Component {
         let url;
 
         if(this.state.category === "All"){
-            //http://localhost:8080/getAllFood
             url = 'http://localhost:8080/getAllFood?page='+page+'&size='+this.state.pageSize;
         }else{
-            url = 'http://localhost:8080/findAllByCategory';
+            url = 'http://localhost:8080/findAllByCategory?page='+page+'&size='+this.state.pageSize;
         }
 
         FetchUtil.fetchPost(url, this.state.category)
@@ -76,7 +75,7 @@ export class ListFood extends React.Component {
                 food = data
                 const id = food.id;
                 const idProducer = food.idProducer;
-                const idUser = Number(LoggedProfile.getId());
+                const idUser = Number(LoggedProfile.getIdUser());
                 const name = food.name;
                 const description = food.description;
                 const price = food.price;

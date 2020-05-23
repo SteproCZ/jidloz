@@ -3,18 +3,24 @@ import {Food} from "./Food";
 import LoggedProfile from "./LoggedProfile";
 import {AddFood} from "./AddFood";
 import FetchUtil from "./FetchUtil";
+import {PaginationComponent} from "./PaginationComponent";
 
 
 export class ProducerListFood extends React.Component {
     constructor() {
         super();
         this.state = {
-            listFood: []
+            listFood: [],
+            activePage: 0,
+            totalPages: 0,
+            itemsCountPerPage: 0,
+            totalItemsCount: 0,
+            pageSize: 5
         }
     }
 
     componentDidMount() {
-        this.fetchList();
+        this.fetchList(this.state.activePage);
     }
 
     onChangeHandler = (evt, key) => {
@@ -23,7 +29,7 @@ export class ProducerListFood extends React.Component {
 
     onButtonAddFood = async (food) => {
         const id = food.id;
-        const idProducer = LoggedProfile.getId();
+        const idProducer = LoggedProfile.getIdUser();
         const name = food.name;
         const description = food.description;
         const price = food.price;
@@ -33,28 +39,29 @@ export class ProducerListFood extends React.Component {
         let url = 'http://localhost:8080/addFood';
 
         await FetchUtil.fetchPost(url, JSON.stringify(foodResult))
-            .then(value => this.fetchList());
-
-
+            .then(value => this.fetchList(this.state.activePage));
     }
 
-    fetchList = () =>{
-        let url = 'http://localhost:8080/getAllFoodByIdProducer?page=0&size=5';//...?page=0&size=5
+    fetchList = (page) =>{
+        let url = 'http://localhost:8080/getAllFoodByIdProducer?page='+page+'&size='+this.state.pageSize;
 
-        FetchUtil.fetchPost(url, JSON.stringify(LoggedProfile.getId()))
+        FetchUtil.fetchPost(url,LoggedProfile.getIdUser())
             .then(response => response.json())
-            .then(data => {
+            .then(data =>
                 this.setState({
-                    listFood: data
-                });
-            })
+                    listFood: data.content,
+                    totalPages: data.totalPages,
+                    itemsCountPerPage: data.size,
+                    totalItemsCount: data.totalElements
+                })
+            )
     }
 
     onButtonRemove = async (id) => {
 
         let url = 'http://localhost:8080/removeFoodById';
         await FetchUtil.fetchPost(url, id)
-            .then(value => this.fetchList());
+            .then(value => this.fetchList(this.state.activePage));
     }
 
     onButtonDone(){
@@ -73,6 +80,12 @@ export class ProducerListFood extends React.Component {
                         <button onClick={this.onButtonDone()}>Done</button>
                     </div>
                 )}
+
+                <PaginationComponent activePage={this.state.activePage}
+                                     itemsCountPerPage={this.state.itemsCountPerPage}
+                                     totalItemsCount={this.state.totalItemsCount}
+                                     handlePageChange={this.handlePageChange}
+                />s
             </React.Fragment>
         )
     }
