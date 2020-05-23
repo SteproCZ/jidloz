@@ -1,9 +1,9 @@
 import React from 'react';
-import {Food} from "./Food";
 import LoggedProfile from "./LoggedProfile";
 import {AddFood} from "./AddFood";
 import FetchUtil from "./FetchUtil";
 import {PaginationComponent} from "./PaginationComponent";
+import {FoodComponent} from "./FoodComponent";
 
 
 export class ProducerListFood extends React.Component {
@@ -36,7 +36,9 @@ export class ProducerListFood extends React.Component {
         const category = food.category;
         const foodResult = {id, idProducer, name, description, price, category};
 
-        let url = 'http://localhost:8080/addFood';
+        console.log(foodResult)
+
+            let url = 'http://localhost:8080/addFood';
 
         await FetchUtil.fetchPost(url, JSON.stringify(foodResult))
             .then(value => this.fetchList(this.state.activePage));
@@ -57,15 +59,21 @@ export class ProducerListFood extends React.Component {
             )
     }
 
-    onButtonRemove = async (id) => {
-
+    removeHandler = async (id) => {
+        console.log(id);
         let url = 'http://localhost:8080/removeFoodById';
         await FetchUtil.fetchPost(url, id)
             .then(value => this.fetchList(this.state.activePage));
     }
 
-    onButtonDone(){
+    doneHandler = () => {
+        console.log(this.state);
+    }
 
+    handlePageChange = (page) => {
+        page = page - 1;
+        this.setState({activePage: page});
+        this.fetchList(page)
     }
 
     render() {
@@ -73,19 +81,14 @@ export class ProducerListFood extends React.Component {
             <React.Fragment>
                 <AddFood onAdd={this.onButtonAddFood}/>
                 <h3>All your Food</h3>
-                {this.state.listFood.map((value, index) =>
-                    <div key={index}>
-                        <Food key={index} name={value.name} description={value.description} price={value.price}/>
-                        <button onClick={(evt) => this.onButtonRemove(value.id)}>Remove</button>
-                        <button onClick={this.onButtonDone()}>Done</button>
-                    </div>
-                )}
+
+                <FoodComponent isUser={false} listFood={this.state.listFood} onButtonDone={this.doneHandler} onButtonRemove={this.removeHandler}/>
 
                 <PaginationComponent activePage={this.state.activePage}
                                      itemsCountPerPage={this.state.itemsCountPerPage}
                                      totalItemsCount={this.state.totalItemsCount}
                                      handlePageChange={this.handlePageChange}
-                />s
+                />
             </React.Fragment>
         )
     }

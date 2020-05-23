@@ -10,9 +10,10 @@ import java.util.List;
 //public interface FoodDAO extends JpaRepository<Food, Integer> {
 public interface FoodDAO extends PagingAndSortingRepository<Food, Integer> {
     public Page<Food> findAll(Pageable pageable);
-    //public List<Food> findAllByIdProducer(int idProducer);
+    //public Page<Food> findAllByIdProducer(int idProducer);
     public Page<Food> findAllByIdProducer(int idProducer, Pageable pageable);
     public Page<Food> findAllByCategory(String category, Pageable pageable);
     public void removeFoodById(int id);
     public Food findById(int id);
+    public void deleteById(int id);
 }

@@ -1,5 +1,6 @@
 package cz.upce.jidloz.service.impl;
 
+import cz.upce.jidloz.dao.ProducerDAO;
 import cz.upce.jidloz.model.Producer;
 import cz.upce.jidloz.model.ProducerDto;
 import cz.upce.jidloz.service.ProducerService;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class ProducerServiceImpl implements ProducerService {
 
     @Autowired
-    private cz.upce.jidloz.dao.ProducerDAO ProducerDAO;
+    private ProducerDAO ProducerDAO;
 
 
     @Override

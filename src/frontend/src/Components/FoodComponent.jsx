@@ -7,7 +7,14 @@ export class FoodComponent extends React.Component {
             this.props.listFood.map((value, index) =>
                 <div key={index}>
                     <Food key={index} name={value.name} description={value.description} price={value.price}/>
-                    <button onClick={(evt) => this.onButtonReserve(value.id)}>Reserve</button>
+                    {this.props.isUser === true ?
+                        <button onClick={() => this.props.onClickReserve(index)}>Reserve</button>
+                        :
+                        <React.Fragment>
+                            <button onClick={() => this.props.onButtonRemove(value.id)}>Remove</button>
+                            <button onClick={this.props.onButtonDone()}>Done</button>
+                        </React.Fragment>
+                    }
                 </div>
             )
         )

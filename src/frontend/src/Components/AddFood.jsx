@@ -18,6 +18,7 @@ export class AddFood extends React.Component {
     }
 
     onButtonAddFood = async () => {
+        console.log("neco")
         await this.setState({
             category: this.refCategory.current.getCategory()
         });

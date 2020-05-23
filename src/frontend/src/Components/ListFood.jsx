@@ -49,6 +49,10 @@ export class ListFood extends React.Component {
         await this.setState({
             category: this.refCategory.current.getCategory()
         });
+        this.setState({
+            activePage: 0
+        })
+
         this.fetchList(this.state.activePage);
     }
 
@@ -63,35 +67,13 @@ export class ListFood extends React.Component {
             .then(value => this.fetchList(this.state.activePage));
     }
 
-    onButtonReserve = async (idFood) => {
-
-        var food;
-
-        let url = 'http://localhost:8080/getFoodById';
-
-        await FetchUtil.fetchPost(url, JSON.stringify(idFood))
-            .then(response => response.json())
-            .then(data => {
-                food = data
-                const id = food.id;
-                const idProducer = food.idProducer;
-                const idUser = Number(LoggedProfile.getIdUser());
-                const name = food.name;
-                const description = food.description;
-                const price = food.price;
-                food = {id, idUser,  idProducer, name, description, price};
-            });
-
-        url = 'http://localhost:8080/removeFoodById';
-
-        await FetchUtil.fetchPost(url, food.id)
-            .then(value => this.fetchList(this.state.activePage));
-
-        url = 'http://localhost:8080/addFood';
-
+    onClickReserve = async (indexFood) => {
+        let url = 'http://localhost:8080/reserveFood';
+        console.log(this.state.listFood[indexFood])
+        const food = this.state.listFood[indexFood]
+        food.idUser = LoggedProfile.getIdUser()
         await FetchUtil.fetchPost(url, JSON.stringify(food))
             .then(value => this.fetchList(this.state.activePage));
-
     }
 
     handlePageChange = (page) => {
@@ -105,7 +87,7 @@ export class ListFood extends React.Component {
             <React.Fragment>
                 <h3>Just choose</h3>
                 <OptionCategory ref={this.refCategory} categories={["All","Food","Meal"]} onChange={this.onChangeCategory}/>
-                <FoodComponent listFood={this.state.listFood}/>
+                <FoodComponent isUser={true} listFood={this.state.listFood} onClickReserve={this.onClickReserve}/>
 
                 <PaginationComponent activePage={this.state.activePage}
                                      itemsCountPerPage={this.state.itemsCountPerPage}
