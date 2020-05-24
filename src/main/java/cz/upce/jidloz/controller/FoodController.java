@@ -1,10 +1,9 @@
 package cz.upce.jidloz.controller;
 
-import cz.upce.jidloz.dao.FoodDAO;
 import cz.upce.jidloz.model.Food;
+import cz.upce.jidloz.model.FoodAndAddress;
 import cz.upce.jidloz.model.FoodDto;
 import cz.upce.jidloz.service.FoodService;
-import cz.upce.jidloz.service.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +31,11 @@ public class FoodController {
         foodService.save(food);
     }
 
+    @PostMapping("/unReserveFood")
+    public void unReserveFood(@RequestBody Food food) {
+        foodService.unReserveFood(food);
+    }
+
     @PostMapping("/reserveFood")
     public void reserveFoodById(@RequestBody Food food) {
         foodService.reserveFood(food);
@@ -57,14 +61,23 @@ public class FoodController {
         return foodService.findAllByIdProducer(idProducer, pageable);
     }
 
+    @PostMapping("/getAllFoodByIdUser")
+    public Page<Food> getAllFoodByIdUser(@RequestBody int idUser, Pageable pageable) {
+        return foodService.findAllByIdUser(idUser, pageable);
+    }
+
+    @PostMapping("/getAllByIdUserWithAddress")
+    public Page<FoodAndAddress> getAllByIdUserWithAddress(@RequestBody int idUser, Pageable pageable) {
+        return foodService.findAllByIdUserWithAddress(idUser, pageable);
+    }
+
     @PostMapping("/getAllFreeFoodByCategory")
     public Page<Food> findAllByIdUserAndCategory(@RequestBody String category, Pageable pageable) {
          return foodService.findAllByIdUserAndCategory(defaultIdUser, category, pageable);
     }
     @PostMapping("/findAllByIdUserAndCategory")
-    public Page<Food> findAllByIdUserAndCategory(@RequestBody int idUser,@RequestBody String category, Pageable pageable) {
-
-        return foodService.findAllByIdUserAndCategory(idUser, category, pageable);
+    public Page<Food> findAllByIdUserAndCategory(@RequestBody Food food, Pageable pageable) {
+        return foodService.findAllByIdUserAndCategory(food.getIdUser(), food.getCategory(), pageable);
     }
     @PostMapping("/findAllByCategory")
     public Page<Food> findAllByCategory(@RequestBody String category, Pageable pageable) {

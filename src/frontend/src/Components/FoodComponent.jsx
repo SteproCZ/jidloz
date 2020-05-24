@@ -12,7 +12,6 @@ export class FoodComponent extends React.Component {
                         :
                         <React.Fragment>
                             <button onClick={() => this.props.onButtonRemove(value.id)}>Remove</button>
-                            <button onClick={this.props.onButtonDone()}>Done</button>
                         </React.Fragment>
                     }
                 </div>

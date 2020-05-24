@@ -17,8 +17,12 @@ const LoggedProfile = (function () {
         localStorage.setItem('idUser', idUser);
     };
 
-    const isUser = () =>  {
+    const isLogged = () =>  {
         return ("ROLE_USER"===(role) || "ROLE_PRODUCER"===(role));
+    };
+
+    const isUser = () =>  {
+        return ("ROLE_USER"===(role));
     };
 
     const isProducer = () =>  {
@@ -30,22 +34,27 @@ const LoggedProfile = (function () {
     };
 
     const removeRole = () =>  {
+        role = "";
         localStorage.setItem('role', "");
     };
 
     const setRoleUser = () => {
+        role = "ROLE_USER";
         localStorage.setItem('role', "ROLE_USER");
     };
 
     const setRoleProducer = () => {
+        role = "ROLE_PRODUCER";
         localStorage.setItem('role', "ROLE_PRODUCER");
     };
 
     const login = (value) => {
+        console.log(value);
         localStorage.setItem("userInfo", JSON.stringify(value));
     }
 
     return {
+        isLogged : isLogged,
         login : login,
         clear : clear,
         getIdUser: getIdUser,

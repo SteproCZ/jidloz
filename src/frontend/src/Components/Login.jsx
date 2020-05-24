@@ -3,6 +3,8 @@ import AuthService from "../service/AuthService";
 import LoggedProfile from "./LoggedProfile";
 import FetchUtil from "./FetchUtil";
 
+import {useHistory} from "react-router-dom";
+
 
 export class Login extends React.Component {
     constructor() {
@@ -15,42 +17,43 @@ export class Login extends React.Component {
     }
 
     componentDidMount() {
-        LoggedProfile.clear();
+        //LoggedProfile.clear();
     }
 
     login = (e) => {
         e.preventDefault();
         const credentials = {username: this.state.username, password: this.state.password};
 
-        AuthService.login(credentials).then(res => {
+        AuthService.login(credentials).then(async res => {
             if (res.data.status === 200) {
-                LoggedProfile.login(res.data.result);
+                console.log(res.data.result);
+                localStorage.setItem("userInfo", JSON.stringify(res.data.result));
                 LoggedProfile.setIdUser(res.data.result.id);
-                LoggedProfile.setRoleUser();
 
-                if(isProducer()){
+                let url = 'http://localhost:8080/isProducer';
+                let body = LoggedProfile.getIdUser();
+                await FetchUtil.fetchPost(url, body)
+                    .then(response => response.json())
+                    .then(data => {
+                            this.setState({isProducer: data})
+                        }
+                    );
+
+                if(this.state.isProducer){
                     LoggedProfile.setRoleProducer();
-                    console.log(LoggedProfile.getRole());
+                }else{
+                    LoggedProfile.setRoleUser();
                 }
 
-
                 this.setState({message: "successfully logged like user"});
+
+                //useHistory().push('/Home');
             } else {
                 this.setState({message: res.data.message});
             }
         });
 
-        function isProducer() {
-            let url = 'http://localhost:8080/isProducer';
-            let body = LoggedProfile.getIdUser();
 
-            FetchUtil.fetchPost(url, body)
-                .then(response => response.json())
-                .then(data => {
-                        return data;
-                    }
-                );
-        }
 
 
     };

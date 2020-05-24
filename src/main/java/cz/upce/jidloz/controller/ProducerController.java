@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class ProducerController {
@@ -20,6 +22,11 @@ public class ProducerController {
     @PostMapping("/registrationProducer")
     public ApiResponse<Void> registrationProducer(@RequestBody ProducerDto producer) {
         return new ApiResponse<>(HttpStatus.OK.value(), "Producer saved successfully.", producerService.save(producer));
+    }
+
+    @PostMapping("/getProducerById")
+    public Producer registrationProducer(@RequestBody int id) {
+        return producerService.findByIdUser(id);
     }
 
     @PostMapping("/isProducer")

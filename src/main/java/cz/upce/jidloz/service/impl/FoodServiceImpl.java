@@ -1,11 +1,13 @@
 package cz.upce.jidloz.service.impl;
 
 import cz.upce.jidloz.dao.FoodDAO;
-import cz.upce.jidloz.model.Food;
-import cz.upce.jidloz.model.FoodDto;
+import cz.upce.jidloz.dao.ProducerDAO;
+import cz.upce.jidloz.dao.UserDAO;
+import cz.upce.jidloz.model.*;
 import cz.upce.jidloz.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,22 @@ import java.util.List;
 public class FoodServiceImpl implements FoodService {
 
     @Autowired
-    private FoodDAO FoodDAO;
+    private FoodDAO foodDAO;
+
+    @Autowired
+    private ProducerDAO producerDAO;
+
+    @Autowired
+    private UserDAO userDAO;
+
+    @Override
+    public void unReserveFood(Food food) {
+        foodDAO.save(food);
+    }
 
     @Override
     public void reserveFood(Food food) {
-        FoodDAO.save(food);
+        foodDAO.save(food);
     }
 
     @Override
@@ -33,7 +46,7 @@ public class FoodServiceImpl implements FoodService {
         food.setIdUser(foodDto.getIdUser());
         food.setName(foodDto.getName());
         food.setPrice(foodDto.getPrice());
-        FoodDAO.save(food);
+        foodDAO.save(food);
     }
 
     @Override
@@ -41,43 +54,79 @@ public class FoodServiceImpl implements FoodService {
         /*Page<Food> list = (Page<Food>) new ArrayList<Food>();
         FoodDAO.findAll(pageable).iterator().forEachRemaining(list::);
         return list;*/
-        return FoodDAO.findAll(pageable);
+        return foodDAO.findAll(pageable);
     }
 
     @Override
     public void deleteById(int id) {
-        FoodDAO.deleteById(id);
+        foodDAO.deleteById(id);
     }
 
 
 
     @Override
     public void removeFoodById(int id) {
-        FoodDAO.removeFoodById(id);
+        foodDAO.removeFoodById(id);
     }
 
     @Override
     public Food findById(int id) {
-        return FoodDAO.findById(id);
+        return foodDAO.findById(id);
     }
 
     @Override
     public Page<Food> findAllByIdUserAndCategory(int idUser, String category, Pageable pageable) {
-        return FoodDAO.findAllByIdUserAndCategory(idUser, category, pageable);
+        return foodDAO.findAllByIdUserAndCategory(idUser, category, pageable);
     }
 
     @Override
     public Page<Food> findAllByIdUser(int idUser, Pageable pageable) {
-        return FoodDAO.findAllByIdUser(idUser, pageable);
+        return foodDAO.findAllByIdUser(idUser, pageable);
     }
 
     @Override
+    public Page<FoodAndAddress> findAllByIdUserWithAddress(int idUser, Pageable pageable) {
+        List<FoodAndAddress> list = new ArrayList<>();
+
+        Page<Food> foods = foodDAO.findAllByIdUser(idUser, pageable);
+        foods.forEach(food -> {
+            FoodAndAddress foodAndAddress = new FoodAndAddress();
+            foodAndAddress.setId(food.getId());
+            foodAndAddress.setIdUser(food.getIdUser());
+            foodAndAddress.setIdProducer(food.getIdProducer());
+            foodAndAddress.setCategory(food.getCategory());
+            foodAndAddress.setPrice(food.getPrice());
+            foodAndAddress.setDescription(food.getDescription());
+            foodAndAddress.setName(food.getName());
+
+            Producer producer = producerDAO.findByIdUser(food.getIdProducer());
+            foodAndAddress.setCity(producer.getCity());
+            foodAndAddress.setHouseNumber(producer.getHouseNumber());
+            foodAndAddress.setPostalCode(producer.getPostalCode());
+            foodAndAddress.setStreet(producer.getStreet());
+
+            User user = userDAO.getOne(idUser);
+            foodAndAddress.setPhone(user.getPhone());
+            foodAndAddress.setEmail(user.getEmail());
+            list.add(foodAndAddress);
+        });
+
+        int pageSize = pageable.getPageSize();
+        long pageOffset = pageable.getOffset();
+        long total = pageOffset + list.size() + (list.size() == pageSize ? pageSize : 0);
+        Page<FoodAndAddress> page = new PageImpl<>(list, pageable,total);
+
+        return page;
+    }
+
+
+    @Override
     public Page<Food> findAllByIdProducer(int idProducer, Pageable pageable) {
-        return FoodDAO.findAllByIdProducer(idProducer, pageable);
+        return foodDAO.findAllByIdProducer(idProducer, pageable);
     }
 
     @Override
     public Page<Food> findAllByCategory(String category, Pageable pageable) {
-        return FoodDAO.findAllByCategory(category, pageable);
+        return foodDAO.findAllByCategory(category, pageable);
     }
 }

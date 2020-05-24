@@ -77,14 +77,14 @@ export class FoodListComponent extends React.Component {
         this.fetchList(this.state.page.activePage);
     }
 
+    onChangeHandler = (evt, key) => {
+        this.setState({[key]: evt.target.value})
+    }
+
     removeHandler = async (id) => {
         let url = 'http://localhost:8080/removeFoodById';
         await FetchUtil.fetchPost(url, id)
             .then(value => this.fetchList(this.state.page.activePage));
-    }
-
-    doneHandler = () => {
-
     }
 
     onClickReserve = async (indexFood) => {
@@ -119,7 +119,7 @@ export class FoodListComponent extends React.Component {
                     <React.Fragment>
                         <AddFood onAdd={this.onButtonAddFood}/>
                         <h3>All your Food</h3>
-                        <FoodComponent isUser={false} listFood={this.state.listFood} onButtonDone={this.doneHandler}
+                        <FoodComponent isUser={false} listFood={this.state.listFood}
                                        onButtonRemove={this.removeHandler}/>
                     </React.Fragment>
                 }

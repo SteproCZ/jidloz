@@ -16,6 +16,8 @@ import {
 } from "react-router-dom";
 import {Navbar} from "./Components/Navbar";
 import {FoodListComponent} from "./Components/FoodListComponent";
+import LoggedProfile from "./Components/LoggedProfile";
+import {ReservationsComponent} from "./Components/ReservationsComponent";
 
 //grovy - <version>2.0-M2-groovy-2.5</version>
 // <packaging>war</packaging>
@@ -25,7 +27,7 @@ function App() {
     return (
         <Router>
             <div className="App">
-
+                <Link to="/reservations">reservations</Link>
                 <Navbar />
 
                 <Switch>
@@ -35,11 +37,19 @@ function App() {
 
                     <Route path="/login" component={Login} />
 
-                    <Route path="/registration" component={Registration} />
+                    <Route path="/logout" component={Logout} />
 
                     <Route path="/producer" component={ListFoodProducerFun} />
 
                     <Route path="/user" component={ListFoodFun} />
+
+                    <Route path="/reservations" component={ReservationsFun} />
+
+                    <Route path="/registration/user" component={RegistrationUser} />
+
+                    <Route path="/registration/producer" component={RegistrationProducer} />
+
+
                 </Switch>
             </div>
         </Router>
@@ -50,21 +60,20 @@ function Main() {
     return <h2>Main</h2>;
 }
 
+function Logout() {
+    LoggedProfile.clear();
+    return <h2>You have been logged out.</h2>;
+}
 
-function Registration() {
+function ReservationsFun() {
     return (
         <div>
-            <h2>Registration</h2>
-            <Link to="/registration/user">User</Link>
-            <br />
-            <Link to="/registration/producer">Producer</Link>
-            <Switch>
-                <Route path="/registration/user" component={RegistrationUser} />
-                <Route path="/registration/producer" component={RegistrationProducer} />
-            </Switch>
+            <h2>Reservations</h2>
+            <ReservationsComponent isUser={true}/>
         </div>
     );
 }
+
 
 function ListFoodFun() {
     return (
