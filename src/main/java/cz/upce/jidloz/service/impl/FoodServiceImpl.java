@@ -62,8 +62,18 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Page<Food> findAllByIdProducer(int id, Pageable pageable) {
-        return FoodDAO.findAllByIdProducer(id, pageable);
+    public Page<Food> findAllByIdUserAndCategory(int idUser, String category, Pageable pageable) {
+        return FoodDAO.findAllByIdUserAndCategory(idUser, category, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllByIdUser(int idUser, Pageable pageable) {
+        return FoodDAO.findAllByIdUser(idUser, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllByIdProducer(int idProducer, Pageable pageable) {
+        return FoodDAO.findAllByIdProducer(idProducer, pageable);
     }
 
     @Override

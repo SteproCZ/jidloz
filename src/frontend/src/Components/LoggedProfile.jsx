@@ -4,7 +4,9 @@ const LoggedProfile = (function () {
     let idProducer = localStorage.getItem('idProducer');
     let role = localStorage.getItem('role');
 
-
+    const clear = () => {
+        localStorage.clear();
+    };
 
     const getIdUser = () => {
         return idUser;
@@ -39,8 +41,13 @@ const LoggedProfile = (function () {
         localStorage.setItem('role', "ROLE_PRODUCER");
     };
 
+    const login = (value) => {
+        localStorage.setItem("userInfo", JSON.stringify(value));
+    }
 
     return {
+        login : login,
+        clear : clear,
         getIdUser: getIdUser,
         setIdUser: setIdUser,
         setRoleUser: setRoleUser,

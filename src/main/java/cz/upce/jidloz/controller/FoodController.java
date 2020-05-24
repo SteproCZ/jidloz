@@ -21,6 +21,8 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 public class FoodController {
 
+    private static int defaultIdUser = 0;
+
     @Autowired
     private FoodService foodService;
 
@@ -45,11 +47,25 @@ public class FoodController {
         return foodService.findAll(pageable);
     }
 
+    @PostMapping("/getAllFreeFood")
+    public Page<Food> getAllFreeFood(Pageable pageable) {
+        return foodService.findAllByIdUser(defaultIdUser, pageable);
+    }
+
     @PostMapping("/getAllFoodByIdProducer")
     public Page<Food> getAllFoodByIdProducer(@RequestBody int idProducer, Pageable pageable) {
         return foodService.findAllByIdProducer(idProducer, pageable);
     }
 
+    @PostMapping("/getAllFreeFoodByCategory")
+    public Page<Food> findAllByIdUserAndCategory(@RequestBody String category, Pageable pageable) {
+         return foodService.findAllByIdUserAndCategory(defaultIdUser, category, pageable);
+    }
+    @PostMapping("/findAllByIdUserAndCategory")
+    public Page<Food> findAllByIdUserAndCategory(@RequestBody int idUser,@RequestBody String category, Pageable pageable) {
+
+        return foodService.findAllByIdUserAndCategory(idUser, category, pageable);
+    }
     @PostMapping("/findAllByCategory")
     public Page<Food> findAllByCategory(@RequestBody String category, Pageable pageable) {
         return foodService.findAllByCategory(category, pageable);

@@ -1,15 +1,21 @@
 import React from 'react';
 import AuthService from "../service/AuthService";
 import LoggedProfile from "./LoggedProfile";
+import FetchUtil from "./FetchUtil";
 
 
 export class Login extends React.Component {
     constructor() {
         super();
+
         this.state = {
             username: "",
             password: ""
         }
+    }
+
+    componentDidMount() {
+        LoggedProfile.clear();
     }
 
     login = (e) => {
@@ -18,11 +24,15 @@ export class Login extends React.Component {
 
         AuthService.login(credentials).then(res => {
             if (res.data.status === 200) {
-                LoggedProfile.removeRole();
+                LoggedProfile.login(res.data.result);
                 LoggedProfile.setIdUser(res.data.result.id);
                 LoggedProfile.setRoleUser();
 
-                console.log(res.data.result);
+                if(isProducer()){
+                    LoggedProfile.setRoleProducer();
+                    console.log(LoggedProfile.getRole());
+                }
+
 
                 this.setState({message: "successfully logged like user"});
             } else {
@@ -30,8 +40,21 @@ export class Login extends React.Component {
             }
         });
 
+        function isProducer() {
+            let url = 'http://localhost:8080/isProducer';
+            let body = LoggedProfile.getIdUser();
+
+            FetchUtil.fetchPost(url, body)
+                .then(response => response.json())
+                .then(data => {
+                        return data;
+                    }
+                );
+        }
+
 
     };
+
 
     onChangeHandler = (evt, key) => {
         this.setState({[key]: evt.target.value})

@@ -21,7 +21,11 @@ public interface FoodService {
 
     Food findById(int id);
 
-    Page<Food> findAllByIdProducer(int id, Pageable pageable);
+    Page<Food> findAllByIdUserAndCategory(int idUser, String category, Pageable pageable);
+
+    Page<Food> findAllByIdUser(int idUser, Pageable pageable);
+
+    Page<Food> findAllByIdProducer(int idProducer, Pageable pageable);
 
     Page<Food> findAllByCategory(String category, Pageable pageable);
 

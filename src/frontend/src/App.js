@@ -3,8 +3,7 @@ import './App.css';
 import {Login} from "./Components/Login";
 import {RegistrationUser} from "./Components/RegistrationUser";
 import {RegistrationProducer} from "./Components/RegistrationProducer";
-import {ListFood} from "./Components/ListFood";
-import {ProducerListFood} from "./Components/ProducerListFood";
+
 
 
 import {
@@ -16,6 +15,7 @@ import {
     useParams
 } from "react-router-dom";
 import {Navbar} from "./Components/Navbar";
+import {FoodListComponent} from "./Components/FoodListComponent";
 
 //grovy - <version>2.0-M2-groovy-2.5</version>
 // <packaging>war</packaging>
@@ -70,7 +70,7 @@ function ListFoodFun() {
     return (
         <div>
             <h2>List Food</h2>
-            <ListFood/>
+            <FoodListComponent isUser={true} />
         </div>
     );
 }
@@ -79,7 +79,7 @@ function ListFoodProducerFun() {
     return (
         <div>
             <h2>Our product Food</h2>
-            <ProducerListFood/>
+            <FoodListComponent isUser={false} />
         </div>
     );
 }
