@@ -1,60 +1,44 @@
 import React from 'react';
 import AuthService from "../service/AuthService";
 import LoggedProfile from "./LoggedProfile";
-import FetchUtil from "./FetchUtil";
-
-import {useHistory} from "react-router-dom";
 
 
 export class Login extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            state: ""
         }
     }
 
-    componentDidMount() {
-        //LoggedProfile.clear();
+    async componentDidMount() {
+        await LoggedProfile.clear();
+        this.props.setLoggedIN(false);
     }
 
     login = (e) => {
         e.preventDefault();
+
         const credentials = {username: this.state.username, password: this.state.password};
 
-        AuthService.login(credentials).then(async res => {
+        AuthService.login(credentials).then(res => {
             if (res.data.status === 200) {
-                console.log(res.data.result);
-                localStorage.setItem("userInfo", JSON.stringify(res.data.result));
+                LoggedProfile.login(res.data.result);
+
+                this.props.setLoggedIN(true)
+
                 LoggedProfile.setIdUser(res.data.result.id);
 
-                let url = 'http://localhost:8080/isProducer';
-                let body = LoggedProfile.getIdUser();
-                await FetchUtil.fetchPost(url, body)
-                    .then(response => response.json())
-                    .then(data => {
-                            this.setState({isProducer: data})
-                        }
-                    );
-
-                if(this.state.isProducer){
-                    LoggedProfile.setRoleProducer();
-                }else{
-                    LoggedProfile.setRoleUser();
-                }
-
                 this.setState({message: "successfully logged like user"});
+                this.props.history.push('/');
 
-                //useHistory().push('/Home');
             } else {
                 this.setState({message: res.data.message});
             }
         });
-
-
-
 
     };
 
@@ -77,7 +61,7 @@ export class Login extends React.Component {
                     <input type="text" name="login-password" value={this.state.password}
                            onChange={(evt) => this.onChangeHandler(evt, 'password')}/>
                 </div>
-                <button /*onClick={this.onButtonLogin}*/ onClick={this.login}>Login</button>
+                <button onClick={this.login}>Login</button>
             </React.Fragment>
         )
     }

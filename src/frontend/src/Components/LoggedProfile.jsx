@@ -1,3 +1,5 @@
+import AuthService from "../service/AuthService";
+
 const LoggedProfile = (function () {
 
     let idUser = localStorage.getItem('idUser');
@@ -18,34 +20,24 @@ const LoggedProfile = (function () {
     };
 
     const isLogged = () =>  {
-        return ("ROLE_USER"===(role) || "ROLE_PRODUCER"===(role));
+        return ("ROLE_USER"===(AuthService.getUserInfo().role) || "ROLE_PRODUCER"===(AuthService.getUserInfo().role));
     };
 
     const isUser = () =>  {
-        return ("ROLE_USER"===(role));
+        return AuthService.getUserInfo().role === "ROLE_USER";
     };
 
     const isProducer = () =>  {
-        return "ROLE_PRODUCER"===(role);
+        return AuthService.getUserInfo().role === "ROLE_PRODUCER";
     };
 
     const getRole = () => {
-        return role;
+        return AuthService.getUserInfo().role;
     };
 
     const removeRole = () =>  {
         role = "";
         localStorage.setItem('role', "");
-    };
-
-    const setRoleUser = () => {
-        role = "ROLE_USER";
-        localStorage.setItem('role', "ROLE_USER");
-    };
-
-    const setRoleProducer = () => {
-        role = "ROLE_PRODUCER";
-        localStorage.setItem('role', "ROLE_PRODUCER");
     };
 
     const login = (value) => {
@@ -59,8 +51,6 @@ const LoggedProfile = (function () {
         clear : clear,
         getIdUser: getIdUser,
         setIdUser: setIdUser,
-        setRoleUser: setRoleUser,
-        setRoleProducer: setRoleProducer,
         isUser: isUser,
         isProducer: isProducer,
         getRole: getRole,

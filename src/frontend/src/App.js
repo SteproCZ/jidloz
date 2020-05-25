@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Login} from "./Components/Login";
 import {RegistrationUser} from "./Components/RegistrationUser";
@@ -18,38 +18,46 @@ import {Navbar} from "./Components/Navbar";
 import {FoodListComponent} from "./Components/FoodListComponent";
 import LoggedProfile from "./Components/LoggedProfile";
 import {ReservationsComponent} from "./Components/ReservationsComponent";
+import {Logout} from "./Components/Logout";
+import AuthService from "./service/AuthService";
 
 //grovy - <version>2.0-M2-groovy-2.5</version>
 // <packaging>war</packaging>
 
 
 function App() {
+    //const [loggedIN, setLoggedIN]=useState(false);
+    //const [loggedIN, setLoggedIN]=useState(LoggedProfile.isLogged());
+    const [loggedIN, setLoggedIN] = useState(AuthService.getUserInfo() !== null);
+
+
     return (
+
         <Router>
             <div className="App">
                 <Link to="/reservations">reservations</Link>
-                <Navbar />
+                <Navbar {...{loggedIN}}/>
 
                 <Switch>
                     <Route exact path="/" component={Main} />
 
                     <Route path="/about" component={About} />
 
-                    <Route path="/login" component={Login} />
+                    <Route path="/login" render={(routeProps) => <Login {...{setLoggedIN, ...routeProps}}/>}/>
 
-                    <Route path="/logout" component={Logout} />
+                    <Route path="/logout" render={(routeProps) => <Logout {...{setLoggedIN, ...routeProps}}/>}/>
 
                     <Route path="/producer" component={ListFoodProducerFun} />
 
                     <Route path="/user" component={ListFoodFun} />
 
-                    <Route path="/reservations" component={ReservationsFun} />
+                    <Route path="/reservations/user" component={ReservationsUserFun} />
+
+                    <Route path="/reservations/producer" component={ReservationsProducerFun} />
 
                     <Route path="/registration/user" component={RegistrationUser} />
 
                     <Route path="/registration/producer" component={RegistrationProducer} />
-
-
                 </Switch>
             </div>
         </Router>
@@ -60,16 +68,22 @@ function Main() {
     return <h2>Main</h2>;
 }
 
-function Logout() {
-    LoggedProfile.clear();
-    return <h2>You have been logged out.</h2>;
-}
 
-function ReservationsFun() {
+
+function ReservationsUserFun() {
     return (
         <div>
             <h2>Reservations</h2>
             <ReservationsComponent isUser={true}/>
+        </div>
+    );
+}
+
+function ReservationsProducerFun() {
+    return (
+        <div>
+            <h2>Reservations</h2>
+            <ReservationsComponent isUser={false}/>
         </div>
     );
 }

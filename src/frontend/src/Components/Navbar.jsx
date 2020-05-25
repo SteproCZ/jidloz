@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import LoggedProfile from "./LoggedProfile";
+import AuthService from "../service/AuthService";
 
 export class Navbar extends React.Component {
 
@@ -9,7 +10,7 @@ export class Navbar extends React.Component {
         return (
             <nav>
                 {
-                    LoggedProfile.isLogged() === false ?
+                    this.props.loggedIN === false ?
                         <ul>
                             <li>
                                 <Link to="/">Home</Link>
@@ -38,7 +39,10 @@ export class Navbar extends React.Component {
                                         <Link to="/producer">Add product</Link>
                                     </li>
                                     <li>
-                                        <Link to="/user">just choose</Link>
+                                        <Link to="/user">Just choose</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/reservations/Producer">My reservations</Link>
                                     </li>
                                     <li>
                                         <Link to="/about">About</Link>
@@ -60,7 +64,7 @@ export class Navbar extends React.Component {
                                         <Link to="/user">Just choose</Link>
                                     </li>
                                     <li>
-                                        <Link to="/reservations">My reservations</Link>
+                                        <Link to="/reservations/User">My reservations</Link>
                                     </li>
                                     <li>
                                         <Link to="/about">About</Link>
