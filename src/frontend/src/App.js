@@ -3,39 +3,24 @@ import './App.css';
 import {Login} from "./Components/Login";
 import {RegistrationUser} from "./Components/RegistrationUser";
 import {RegistrationProducer} from "./Components/RegistrationProducer";
-
-
-
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
-    useRouteMatch,
-    useParams
 } from "react-router-dom";
 import {Navbar} from "./Components/Navbar";
 import {FoodListComponent} from "./Components/FoodListComponent";
-import LoggedProfile from "./Components/LoggedProfile";
 import {ReservationsComponent} from "./Components/ReservationsComponent";
 import {Logout} from "./Components/Logout";
 import AuthService from "./service/AuthService";
 
-//grovy - <version>2.0-M2-groovy-2.5</version>
-// <packaging>war</packaging>
-
-
 function App() {
-    //const [loggedIN, setLoggedIN]=useState(false);
-    //const [loggedIN, setLoggedIN]=useState(LoggedProfile.isLogged());
     const [loggedIN, setLoggedIN] = useState(AuthService.getUserInfo() !== null);
-
 
     return (
 
         <Router>
             <div className="App">
-                <Link to="/reservations">reservations</Link>
                 <Navbar {...{loggedIN}}/>
 
                 <Switch>
@@ -73,7 +58,7 @@ function Main() {
 function ReservationsUserFun() {
     return (
         <div>
-            <h2>Reservations</h2>
+            <h2>My reservations</h2>
             <ReservationsComponent isUser={true}/>
         </div>
     );
@@ -82,7 +67,7 @@ function ReservationsUserFun() {
 function ReservationsProducerFun() {
     return (
         <div>
-            <h2>Reservations</h2>
+            <h2>Waiting to be picked up</h2>
             <ReservationsComponent isUser={false}/>
         </div>
     );

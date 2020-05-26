@@ -30,8 +30,6 @@ export class Login extends React.Component {
 
                 this.props.setLoggedIN(true)
 
-                LoggedProfile.setIdUser(res.data.result.id);
-
                 this.setState({message: "successfully logged like user"});
                 this.props.history.push('/');
 

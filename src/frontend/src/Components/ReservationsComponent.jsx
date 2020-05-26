@@ -25,25 +25,43 @@ export class ReservationsComponent extends React.Component {
     }
 
     fetchList = async (page) => {
-        let url = 'http://localhost:8080/getAllByIdUserWithAddress?page=' + page + '&size=' + this.state.page.pageSize;
-        let body = LoggedProfile.getIdUser();
+        let url, body;
+        if (this.props.isUser) {
+            url = 'http://localhost:8080/getAllByIdUserWithAddress';
+        } else {
+            url = 'http://localhost:8080/getAllByIdProducerWithAddress';
+        }
+        url += '?page=' + page + '&size=' + this.state.page.pageSize;
+
+        body = LoggedProfile.getIdUser();
 
         await FetchUtil.fetchPost(url, body)
             .then(response => response.json())
-            .then(data =>
-                this.setState({
-                    reservations: data.content,
-                    totalPages: data.totalPages,
-                    itemsCountPerPage: data.size,
-                    totalItemsCount: data.totalElements
-                })
+            .then(data => {
+                    this.setState({
+                        reservations: data.content,
+                        totalPages: data.totalPages,
+                        itemsCountPerPage: data.size,
+                        totalItemsCount: data.totalElements
+                    })
+                }
             );
     }
 
-    onClickDone = async (id) => {
-        let url = 'http://localhost:8080/removeFoodById';
-        await FetchUtil.fetchPost(url, id)
-            .then(value => this.fetchList(this.state.page.activePage));
+    onClickDone = (indexFood) => {
+        const food = this.state.reservations[indexFood];
+        console.log(food.id);
+        let url;
+        /*
+            url = 'http://localhost:8080/removeFoodById';
+            FetchUtil.fetchPost(url, food.id)
+                .then(value => this.fetchList(this.state.page.activePage));*/
+
+        console.log(food.category);
+
+        url = 'http://localhost:8080/statisticIncrementation';
+        FetchUtil.fetchPost(url, food.category)
+            .then();
     }
 
     onClickCancel = async (indexFood) => {

@@ -4,8 +4,8 @@ import LoggedProfile from "./LoggedProfile";
 
 export class RegistrationProducer extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             producer: {
                 city: "",
@@ -27,13 +27,13 @@ export class RegistrationProducer extends React.Component {
             }
         })
 
-        console.log(this.state.producer)
-
         FetchUtil.fetchPost(url, JSON.stringify(this.state.producer))
             .then(response => response.json())
             .then(data => {
                 console.log(data)
             });
+
+        this.props.history.push('/login');
     }
 
     onChangeHandler = (evt, key)  => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import FetchUtil from "./FetchUtil";
+import PublicService from "../service/PublicService";
 
 export class RegistrationUser extends React.Component {
     constructor() {
@@ -11,19 +11,28 @@ export class RegistrationUser extends React.Component {
                 username: "",
                 password: "",
                 email: "",
-                phone: "",
-                role: ""
+                phone: ""
             }
         }
     }
 
     onButtonRegistration = () => {
+        //UserService.registration()
+
+        PublicService.registrationUser(this.state.user).then(res => {
+            if(res.data.status === 200){
+                this.props.history.push('/login');
+            }else {
+                this.setState({message: res.data.message});
+            }
+        });
+        /*
         let url = 'http://localhost:8080/registrationUser';
         FetchUtil.fetchPost(url, JSON.stringify(this.state.user))
             .then(response => response.json())
-            .then(data => {
-                console.log(data)
-            });
+            .then(
+                this.props.history.push('/login')
+            );*/
     }
 
     onChangeHandler = (evt, key)  => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Food} from "./Food";
 import LoggedProfile from "./LoggedProfile";
 import {OptionCategory} from "./OptionCategory";
 import FetchUtil from "./FetchUtil";

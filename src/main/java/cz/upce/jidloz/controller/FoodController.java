@@ -71,6 +71,11 @@ public class FoodController {
         return foodService.findAllByIdUserWithAddress(idUser, pageable);
     }
 
+    @PostMapping("/getAllByIdProducerWithAddress")
+    public Page<FoodAndAddress> findAllByIdProducerWithAddress(@RequestBody int idProducer, Pageable pageable) {
+        return foodService.findAllByIdProducerWithAddress(idProducer, pageable);
+    }
+
     @PostMapping("/getAllFreeFoodByCategory")
     public Page<Food> findAllByIdUserAndCategory(@RequestBody String category, Pageable pageable) {
          return foodService.findAllByIdUserAndCategory(defaultIdUser, category, pageable);

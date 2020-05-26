@@ -105,10 +105,43 @@ public class FoodServiceImpl implements FoodService {
             foodAndAddress.setPostalCode(producer.getPostalCode());
             foodAndAddress.setStreet(producer.getStreet());
 
-            User user = userDAO.getOne(idUser);
+            User user = userDAO.getOne(food.getIdProducer());
             foodAndAddress.setPhone(user.getPhone());
             foodAndAddress.setEmail(user.getEmail());
+
             list.add(foodAndAddress);
+        });
+
+        int pageSize = pageable.getPageSize();
+        long pageOffset = pageable.getOffset();
+        long total = pageOffset + list.size() + (list.size() == pageSize ? pageSize : 0);
+        Page<FoodAndAddress> page = new PageImpl<>(list, pageable,total);
+
+        return page;
+    }
+
+    @Override
+    public Page<FoodAndAddress> findAllByIdProducerWithAddress(int idProducer, Pageable pageable) {
+        List<FoodAndAddress> list = new ArrayList<>();
+
+        Page<Food> foods = foodDAO.findAllByIdProducer(idProducer, pageable);
+
+        foods.forEach(food -> {
+            if(food.getIdUser() != 0){
+                FoodAndAddress foodAndAddress = new FoodAndAddress();
+                foodAndAddress.setId(food.getId());
+                foodAndAddress.setIdUser(food.getIdUser());
+                foodAndAddress.setIdProducer(food.getIdProducer());
+                foodAndAddress.setCategory(food.getCategory());
+                foodAndAddress.setPrice(food.getPrice());
+                foodAndAddress.setDescription(food.getDescription());
+                foodAndAddress.setName(food.getName());
+
+                User user = userDAO.getOne(food.getIdUser());
+                foodAndAddress.setPhone(user.getPhone());
+                foodAndAddress.setEmail(user.getEmail());
+                list.add(foodAndAddress);
+            }
         });
 
         int pageSize = pageable.getPageSize();

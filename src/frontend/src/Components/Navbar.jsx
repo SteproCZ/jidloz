@@ -1,7 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import LoggedProfile from "./LoggedProfile";
-import AuthService from "../service/AuthService";
 
 export class Navbar extends React.Component {
 
@@ -42,7 +41,10 @@ export class Navbar extends React.Component {
                                         <Link to="/user">Just choose</Link>
                                     </li>
                                     <li>
-                                        <Link to="/reservations/Producer">My reservations</Link>
+                                        <Link to="/reservations/user">My reservations</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/reservations/producer">My products</Link>
                                     </li>
                                     <li>
                                         <Link to="/about">About</Link>
@@ -64,7 +66,7 @@ export class Navbar extends React.Component {
                                         <Link to="/user">Just choose</Link>
                                     </li>
                                     <li>
-                                        <Link to="/reservations/User">My reservations</Link>
+                                        <Link to="/reservations/user">My reservations</Link>
                                     </li>
                                     <li>
                                         <Link to="/about">About</Link>

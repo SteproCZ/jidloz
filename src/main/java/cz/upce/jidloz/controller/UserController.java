@@ -51,7 +51,7 @@ public class UserController {
         return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
     }
 
-    @PostMapping("/registrationUser")
+    @PostMapping("/public/registration")
     public ApiResponse<Void> registrationUser(@RequestBody UserDto user) {
 
         //kontrola existujcího účtu
@@ -59,7 +59,6 @@ public class UserController {
         boolean existsByPhone = UserDAO.existsByPhone(user.getPhone());
 
         user.setPassword(user.getPassword());
-        user.setRole("USER");
 
         if (existsByEmail || existsByPhone) {
             System.out.println("User exist!");

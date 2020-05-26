@@ -28,6 +28,4 @@ public class User implements Serializable {
     private String email;
     @Column(nullable = false, unique=true)
     private String phone;
-    @Column(nullable = false)
-    private String role;
 }

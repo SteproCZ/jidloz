@@ -28,6 +28,8 @@ public interface FoodService {
 
     Page<FoodAndAddress> findAllByIdUserWithAddress(int idUser, Pageable pageable);
 
+    Page<FoodAndAddress> findAllByIdProducerWithAddress(int idProducer, Pageable pageable);
+
     Page<Food> findAllByIdUser(int idUser, Pageable pageable);
 
     Page<Food> findAllByIdProducer(int idProducer, Pageable pageable);

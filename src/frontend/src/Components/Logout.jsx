@@ -1,7 +1,6 @@
 import React from "react";
 import LoggedProfile from "./LoggedProfile";
 import AuthService from "../service/AuthService";
-import {useHistory} from "react-router-dom";
 
 export class Logout extends React.Component {
     async componentDidMount() {

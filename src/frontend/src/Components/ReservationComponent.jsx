@@ -17,13 +17,15 @@ export class ReservationComponent extends React.Component {
                                      postalCode={value.postalCode}
                                      street={value.street}
                                      houseNumber={value.houseNumber}/>
+                            <AddressOther phone={value.phone}
+                                          email={value.email}/>
                             <button onClick={() => this.props.onClickCancel(index)}>Cancel</button>
                         </React.Fragment>
                         :
                         <React.Fragment>
                             <AddressOther phone={value.phone}
                                           email={value.email}/>
-                            <button onClick={() => this.props.onClickDone()}>Done</button>
+                            <button onClick={() => this.props.onClickDone(index)}>Done</button>
                         </React.Fragment>
                     }
                 </div>

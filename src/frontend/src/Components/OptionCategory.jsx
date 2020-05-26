@@ -1,6 +1,4 @@
 import React from 'react';
-import {Food} from "./Food";
-
 
 export class OptionCategory extends React.Component {
     constructor(props) {
