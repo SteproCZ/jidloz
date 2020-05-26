@@ -5,6 +5,7 @@ import FetchUtil from "./FetchUtil";
 import {PaginationComponent} from "./PaginationComponent";
 import {FoodComponent} from "./FoodComponent";
 import {AddFood} from "./AddFood";
+import * as Constants from './Constants'
 
 export class FoodListComponent extends React.Component {
     constructor() {
@@ -109,7 +110,7 @@ export class FoodListComponent extends React.Component {
                 {this.props.isUser === true ?
                     <React.Fragment>
                         <h3>Just choose</h3>
-                        <OptionCategory ref={this.refCategory} categories={["All", "Food", "Meal"]}
+                        <OptionCategory ref={this.refCategory} categories={Constants.CATEGORIES_ALL}
                                         onChange={this.onChangeCategory}/>
                         <FoodComponent isUser={true} listFood={this.state.listFood}
                                        onClickReserve={this.onClickReserve}/>

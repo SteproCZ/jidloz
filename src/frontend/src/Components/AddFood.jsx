@@ -1,6 +1,6 @@
 import React from 'react';
 import {OptionCategory} from "./OptionCategory";
-
+import * as Constants from './Constants'
 
 export class AddFood extends React.Component {
     constructor() {
@@ -40,7 +40,7 @@ export class AddFood extends React.Component {
         return (
             <React.Fragment>
                 <h3>Add Food</h3>
-                <OptionCategory ref={this.refCategory} categories={["Food","Meal"]} onChange={this.onChangeCategory}/>
+                <OptionCategory ref={this.refCategory} categories={Constants.CATEGORIES} onChange={this.onChangeCategory}/>
                 <div>
                     <label htmlFor="add-food-name">Name</label>
                     <input type="text" name="add-food-name" value={this.state.name}
