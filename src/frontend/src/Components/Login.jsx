@@ -19,14 +19,14 @@ export class Login extends React.Component {
         this.props.setLoggedIN(false);
     }
 
-    login = (e) => {
+    login = async (e) => {
         e.preventDefault();
 
         const credentials = {username: this.state.username, password: this.state.password};
 
-        AuthService.login(credentials).then(res => {
+        await AuthService.login(credentials).then(async res => {
             if (res.data.status === 200) {
-                LoggedProfile.login(res.data.result);
+                await LoggedProfile.login(res.data.result);
 
                 this.props.setLoggedIN(true)
 

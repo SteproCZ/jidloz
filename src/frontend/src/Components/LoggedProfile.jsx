@@ -2,8 +2,8 @@ import AuthService from "../service/AuthService";
 
 const LoggedProfile = (function () {
 
-    let idUser = AuthService.getUserInfo().id;
-    let role = AuthService.getUserInfo().role;
+    let idUser = AuthService.getUserIdUser();
+    let role = AuthService.getUserRole();
 
     const clear = () => {
         localStorage.clear();
@@ -14,7 +14,7 @@ const LoggedProfile = (function () {
     };
 
     const isLogged = () =>  {
-        return ("ROLE_USER"===(role) || "ROLE_PRODUCER"===(role));
+        return ("ROLE_USER"===role || "ROLE_PRODUCER"===role);
     };
 
     const isUser = () =>  {
@@ -31,7 +31,8 @@ const LoggedProfile = (function () {
 
     const login = (value) => {
         idUser = value.id;
-        localStorage.setItem("userInfo", JSON.stringify(value));
+        role = value.role;
+        AuthService.setUserInfo(value);
     }
 
     return {
