@@ -31,7 +31,7 @@ public class StatisticController {
         statisticService.statisticIncrementation(category);
     }
 
-    @PostMapping("/getAllStatistic")
+    @PostMapping("/public/getAllStatistic")
     public List<Statistic> getAllFoodByIdUser() {
         return statisticService.findAll();
     }

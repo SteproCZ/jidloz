@@ -13,6 +13,8 @@ import {FoodListComponent} from "./Components/FoodListComponent";
 import {ReservationsComponent} from "./Components/ReservationsComponent";
 import {Logout} from "./Components/Logout";
 import AuthService from "./service/AuthService";
+import {Graph} from "./Components/Graph";
+
 
 function App() {
     const [loggedIN, setLoggedIN] = useState(AuthService.getUserInfo() !== null);
@@ -24,25 +26,25 @@ function App() {
                 <Navbar {...{loggedIN}}/>
 
                 <Switch>
-                    <Route exact path="/" component={Main} />
+                    <Route exact path="/" component={Main}/>
 
-                    <Route path="/about" component={About} />
+                    <Route path="/about" component={About}/>
 
                     <Route path="/login" render={(routeProps) => <Login {...{setLoggedIN, ...routeProps}}/>}/>
 
                     <Route path="/logout" render={(routeProps) => <Logout {...{setLoggedIN, ...routeProps}}/>}/>
 
-                    <Route path="/producer" component={ListFoodProducerFun} />
+                    <Route path="/producer" component={ListFoodProducerFun}/>
 
-                    <Route path="/user" component={ListFoodFun} />
+                    <Route path="/user" component={ListFoodFun}/>
 
-                    <Route path="/reservations/user" component={ReservationsUserFun} />
+                    <Route path="/reservations/user" component={ReservationsUserFun}/>
 
-                    <Route path="/reservations/producer" component={ReservationsProducerFun} />
+                    <Route path="/reservations/producer" component={ReservationsProducerFun}/>
 
-                    <Route path="/registration/user" component={RegistrationUser} />
+                    <Route path="/registration/user" component={RegistrationUser}/>
 
-                    <Route path="/registration/producer" component={RegistrationProducer} />
+                    <Route path="/registration/producer" component={RegistrationProducer}/>
                 </Switch>
             </div>
         </Router>
@@ -50,9 +52,13 @@ function App() {
 }
 
 function Main() {
-    return <h2>Main</h2>;
+    return (
+        <div>
+            <h2>Main</h2>
+            <Graph/>
+        </div>
+    );
 }
-
 
 
 function ReservationsUserFun() {
@@ -78,7 +84,7 @@ function ListFoodFun() {
     return (
         <div>
             <h2>List Food</h2>
-            <FoodListComponent isUser={true} />
+            <FoodListComponent isUser={true}/>
         </div>
     );
 }
@@ -87,7 +93,7 @@ function ListFoodProducerFun() {
     return (
         <div>
             <h2>Our product Food</h2>
-            <FoodListComponent isUser={false} />
+            <FoodListComponent isUser={false}/>
         </div>
     );
 }
@@ -97,7 +103,11 @@ function About() {
     return (
         <div>
             <h2>About</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
+                commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est laborum.</p>
         </div>
     );
 }

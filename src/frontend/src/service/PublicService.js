@@ -9,7 +9,7 @@ class PublicService {
     }
 
     getStatInfo(){
-        return axios.post(USER_API_BASE_URL + "statInfo");
+        return axios.post(USER_API_BASE_URL + "getAllStatistic");
     }
 }
 
