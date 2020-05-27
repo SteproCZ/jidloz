@@ -46,7 +46,7 @@ export class FoodListComponent extends React.Component {
                 body = this.state.category
             }
         } else {//Producer - add
-            url = 'http://localhost:8080/getAllFoodByIdProducer?page=';
+            url = 'http://localhost:8080/getAllFreeFoodByIdProducer?page=';
             body = LoggedProfile.getIdUser();
         }
         url += page + '&size=' + this.state.pageSize;
@@ -103,9 +103,12 @@ export class FoodListComponent extends React.Component {
                         <div className="card">
                             <h3 className="card-header">Just choose</h3>
                             <div className="card-body">
-                                <OptionCategory ref={this.refCategory} categories={Constants.CATEGORIES_ALL}
-                                                onChange={this.onChangeCategory}/>
-                                <div className="d-flex justify-content-center p-3">
+                                <div className="m-3">
+                                    <OptionCategory ref={this.refCategory}
+                                                    categories={Constants.CATEGORIES_ALL}
+                                                    onChange={this.onChangeCategory}/>
+                                </div>
+                                <div className="d-flex justify-content-center">
                                     <FoodComponent isUser={true} listFood={this.state.listFood}
                                                    onClickReserve={this.onClickReserve}/>
                                 </div>

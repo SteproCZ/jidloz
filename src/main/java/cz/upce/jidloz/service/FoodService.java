@@ -32,7 +32,13 @@ public interface FoodService {
 
     Page<Food> findAllByIdUser(int idUser, Pageable pageable);
 
+    List<Food> findAllByIdUser(int idUser);
+
     Page<Food> findAllByIdProducer(int idProducer, Pageable pageable);
+
+    Page<Food> findAllByIdUserAndIdProducer(int defaultIdUser, int idProducer, Pageable pageable);
+
+    List<Food> findAllByIdProducer(int idProducer);
 
     Page<Food> findAllByCategory(String category, Pageable pageable);
 

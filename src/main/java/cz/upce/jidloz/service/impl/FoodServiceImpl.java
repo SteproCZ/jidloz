@@ -8,6 +8,7 @@ import cz.upce.jidloz.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -85,10 +86,15 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    public List<Food> findAllByIdUser(int idUser) {
+        return foodDAO.findAllByIdUser(idUser);
+    }
+
+    @Override
     public Page<FoodAndAddress> findAllByIdUserWithAddress(int idUser, Pageable pageable) {
         List<FoodAndAddress> list = new ArrayList<>();
 
-        Page<Food> foods = foodDAO.findAllByIdUser(idUser, pageable);
+        List<Food> foods = foodDAO.findAllByIdUser(idUser);
         foods.forEach(food -> {
             FoodAndAddress foodAndAddress = new FoodAndAddress();
             foodAndAddress.setId(food.getId());
@@ -124,7 +130,7 @@ public class FoodServiceImpl implements FoodService {
     public Page<FoodAndAddress> findAllByIdProducerWithAddress(int idProducer, Pageable pageable) {
         List<FoodAndAddress> list = new ArrayList<>();
 
-        Page<Food> foods = foodDAO.findAllByIdProducer(idProducer, pageable);
+        List<Food> foods = foodDAO.findAllByIdProducer(idProducer);
 
         foods.forEach(food -> {
             if(food.getIdUser() != 0){
@@ -156,6 +162,16 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Page<Food> findAllByIdProducer(int idProducer, Pageable pageable) {
         return foodDAO.findAllByIdProducer(idProducer, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllByIdUserAndIdProducer(int defaultIdUser, int idProducer, Pageable pageable) {
+        return foodDAO.findAllByIdUserAndIdProducer(defaultIdUser, idProducer, pageable);
+    }
+
+    @Override
+    public List<Food> findAllByIdProducer(int idProducer) {
+        return foodDAO.findAllByIdProducer(idProducer);
     }
 
     @Override

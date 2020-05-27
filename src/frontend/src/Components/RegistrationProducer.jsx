@@ -72,7 +72,7 @@ export class RegistrationProducer extends React.Component {
                             <input className="form-control" type="number" name="producer-houseNumber" value={this.state.producer.houseNumber}
                                    onChange={(evt) => this.onChangeHandler(evt, 'houseNumber')}/>
                         </div>
-                        <button onClick={this.onButtonRegistration}>Registration</button>
+                        <button className="btn btn-primary btn-block" onClick={this.onButtonRegistration}>Registration</button>
                     </div>
                 </div>
             </div>

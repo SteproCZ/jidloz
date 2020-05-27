@@ -27,7 +27,6 @@ public class FoodController {
 
     @PostMapping("/addFood")
     public void addFood(@RequestBody FoodDto food) {
-        System.out.println(food);
         foodService.save(food);
     }
 
@@ -59,6 +58,11 @@ public class FoodController {
     @PostMapping("/getAllFoodByIdProducer")
     public Page<Food> getAllFoodByIdProducer(@RequestBody int idProducer, Pageable pageable) {
         return foodService.findAllByIdProducer(idProducer, pageable);
+    }
+
+    @PostMapping("/getAllFreeFoodByIdProducer")
+    public Page<Food> getAllFreeFoodByIdProducer(@RequestBody int idProducer, Pageable pageable) {
+        return foodService.findAllByIdUserAndIdProducer(defaultIdUser, idProducer, pageable);
     }
 
     @PostMapping("/getAllFoodByIdUser")
