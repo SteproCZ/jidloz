@@ -9,7 +9,7 @@ export class RegistrationProducer extends React.Component {
         this.state = {
             producer: {
                 city: "",
-                postalCode:"",
+                postalCode: "",
                 street: "",
                 houseNumber: "",
                 idUser: 0
@@ -36,7 +36,7 @@ export class RegistrationProducer extends React.Component {
         this.props.history.push('/login');
     }
 
-    onChangeHandler = (evt, key)  => {
+    onChangeHandler = (evt, key) => {
         this.setState({
             producer: {
                 ...this.state.producer,
@@ -47,30 +47,35 @@ export class RegistrationProducer extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                <h3>Registration Producer</h3>
-                <div>
-                    <label htmlFor="producer-city">City</label>
-                    <input type="text" name="producer-city" value={this.state.producer.city}
-                           onChange={(evt) => this.onChangeHandler(evt, 'city')}/>
+            <div className="d-flex justify-content-center p-5">
+                <div className="card">
+                    <h3 className="card-header">Producer registration</h3>
+                    <div className="card-body">
+
+                        <div className="form-group">
+                            <label>City</label>
+                            <input className="form-control" type="text" name="producer-city" value={this.state.producer.city}
+                                   onChange={(evt) => this.onChangeHandler(evt, 'city')}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Postal code</label>
+                            <input className="form-control" type="number" name="producer-postalCode" value={this.state.producer.postalCode}
+                                   onChange={(evt) => this.onChangeHandler(evt, 'postalCode')}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Street</label>
+                            <input className="form-control" type="text" name="producer-street" value={this.state.producer.street}
+                                   onChange={(evt) => this.onChangeHandler(evt, 'street')}/>
+                        </div>
+                        <div className="form-group">
+                            <label>House number</label>
+                            <input className="form-control" type="number" name="producer-houseNumber" value={this.state.producer.houseNumber}
+                                   onChange={(evt) => this.onChangeHandler(evt, 'houseNumber')}/>
+                        </div>
+                        <button onClick={this.onButtonRegistration}>Registration</button>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="user-postalCode">Postal code</label>
-                    <input type="number" name="producer-postalCode" value={this.state.producer.postalCode}
-                           onChange={(evt) => this.onChangeHandler(evt, 'postalCode')}/>
-                </div>
-                <div>
-                    <label htmlFor="producer-street">Street</label>
-                    <input type="text" name="producer-street" value={this.state.producer.street}
-                           onChange={(evt) => this.onChangeHandler(evt, 'street')}/>
-                </div>
-                <div>
-                    <label htmlFor="producer-houseNumber">House number</label>
-                    <input type="number" name="producer-houseNumber" value={this.state.producer.houseNumber}
-                           onChange={(evt) => this.onChangeHandler(evt, 'houseNumber')}/>
-                </div>
-                <button onClick={this.onButtonRegistration}>Registration</button>
-            </React.Fragment>
+            </div>
         )
     }
 

@@ -19,14 +19,19 @@ export class OptionCategory extends React.Component {
 
     render() {
         return (
-           <ReactExample name="category" categories={this.props.categories} multiple={this.state.category} handleChange={this.handleChange} />
+            <ReactExample name="category" categories={this.props.categories} multiple={this.state.category}
+                          handleChange={this.handleChange}/>
         )
     }
 }
 
 export const ReactExample = ({name, categories, handleChange}) => (
-    <select name={name} onChange={handleChange}>
-        {categories.map((value, index) =>
-            <option key={index} name={value}>{value}</option>
-        )}
-    </select>);
+        <div>
+            <label>Category</label>
+            <select className="custom-select" name={name} onChange={handleChange}>
+                {categories.map((value, index) =>
+                    <option key={index} name={value}>{value}</option>
+                )}
+            </select>
+        </div>
+    );

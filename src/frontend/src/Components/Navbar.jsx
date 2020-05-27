@@ -4,72 +4,71 @@ import LoggedProfile from "./LoggedProfile";
 
 export class Navbar extends React.Component {
 
-
     render() {
         return (
-            <nav>
+            <nav className="nav nav-tabs justify-content-center">
                 {
                     this.props.loggedIN === false ?
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
+                        <ul className="nav">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/">Home</Link>
                             </li>
-                            <li>
-                                <Link to="/Login">Login</Link>
+                            <li className="nav-item ">
+                                <Link className="nav-link" to="/about">About</Link>
                             </li>
-                            <li>
-                                <Link to="/registration/user">Registration</Link>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Login">Login</Link>
                             </li>
-                            <li>
-                                <Link to="/about">About</Link>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/registration/user">Registration</Link>
                             </li>
                         </ul>
                         : (
                             LoggedProfile.isProducer() === true ? //producer
 
-                                <ul>
-                                    <li>
-                                        <Link to="/">Home</Link>
+                                <ul className="nav">
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/">Home</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/Logout">Logout</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/producer">Add product</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/producer">Add product</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/user">Just choose</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/user">Just choose</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/reservations/user">My reservations</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/reservations/user">My reservations</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/reservations/producer">My products</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/reservations/producer">My products</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/about">About</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/about">About</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/Logout">Logout</Link>
                                     </li>
                                 </ul>
                                 ://user
 
-                                <ul>
-                                    <li>
-                                        <Link to="/">Home</Link>
+                                <ul className="nav nav-tabs">
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/">Home</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/Logout">Logout</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/Logout">Logout</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/registration/producer">Registration like producer</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/registration/producer">Registration like producer</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/user">Just choose</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/user">Just choose</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/reservations/user">My reservations</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/reservations/user">My reservations</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/about">About</Link>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/about">About</Link>
                                     </li>
                                 </ul>
                         )

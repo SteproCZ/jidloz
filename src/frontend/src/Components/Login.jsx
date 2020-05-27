@@ -37,9 +37,7 @@ export class Login extends React.Component {
                 this.setState({message: res.data.message});
             }
         });
-
     };
-
 
     onChangeHandler = (evt, key) => {
         this.setState({[key]: evt.target.value})
@@ -47,34 +45,26 @@ export class Login extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                <h3 style={styles.center}>Login</h3>
-                <div>
-                    <label htmlFor="login-username">Username</label>
-                    <input type="text" name="login-username" value={this.state.username}
-                           onChange={(evt) => this.onChangeHandler(evt, 'username')}/>
+            <div className="d-flex justify-content-center p-5">
+                <div className="card m-3">
+                    <h3 className="card-header">Login</h3>
+                    <div className="card-body">
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input className="form-control" type="text" name="login-username" value={this.state.username}
+                                   onChange={(evt) => this.onChangeHandler(evt, 'username')}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input className="form-control" type="password" name="login-password"
+                                   value={this.state.password}
+                                   onChange={(evt) => this.onChangeHandler(evt, 'password')}/>
+                        </div>
+                        <button type="submit" className="btn btn-primary btn-block" onClick={this.login}>Login</button>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="login-password">Password</label>
-                    <input type="text" name="login-password" value={this.state.password}
-                           onChange={(evt) => this.onChangeHandler(evt, 'password')}/>
-                </div>
-                <button onClick={this.login}>Login</button>
-            </React.Fragment>
+            </div>
         )
-    }
-}
-
-const styles = {
-    center: {
-        display: 'flex',
-        justifyContent: 'center'
-
-    },
-    notification: {
-        display: 'flex',
-        justifyContent: 'center',
-        color: '#dc3545'
     }
 }
 

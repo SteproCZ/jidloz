@@ -4,9 +4,9 @@ export class Food extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <p>{this.props.name}<br />
-                {this.props.description}<br />
-                    {this.props.price}</p>
+                <p className="form-control">{this.props.name}</p>
+                <p className="form-control">{this.props.description}</p>
+                <p className="form-control">{this.props.price}</p>
             </React.Fragment>
         )
     }

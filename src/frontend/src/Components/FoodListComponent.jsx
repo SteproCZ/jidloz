@@ -13,20 +13,17 @@ export class FoodListComponent extends React.Component {
         this.state = {
             category: "All",
             listFood: [],
-
-            page: {
-                activePage: 0,
-                totalPages: 0,
-                itemsCountPerPage: 0,
-                totalItemsCount: 0,
-                pageSize: 5
-            }
+            activePage: 0,
+            totalPages: 0,
+            itemsCountPerPage: 0,
+            totalItemsCount: 0,
+            pageSize: 5
         }
         this.refCategory = React.createRef();
     }
 
     componentDidMount() {
-        this.fetchList(this.state.page.activePage);
+        this.fetchList(this.state.activePage);
     }
 
     onButtonAddFood = async (food) => {
@@ -34,10 +31,10 @@ export class FoodListComponent extends React.Component {
         let url = 'http://localhost:8080/addFood';
 
         await FetchUtil.fetchPost(url, JSON.stringify(food))
-            .then(value => this.fetchList(this.state.page.activePage));
+            .then(value => this.fetchList(this.state.activePage));
     }
 
-    fetchList = (page) => {
+    fetchList = async (page) => {
         let url;
         let body;
 
@@ -52,18 +49,18 @@ export class FoodListComponent extends React.Component {
             url = 'http://localhost:8080/getAllFoodByIdProducer?page=';
             body = LoggedProfile.getIdUser();
         }
-        url += page + '&size=' + this.state.page.pageSize;
+        url += page + '&size=' + this.state.pageSize;
 
-        FetchUtil.fetchPost(url, body)
+        await FetchUtil.fetchPost(url, body)
             .then(response => response.json())
-            .then(data =>
+            .then(data => {
                 this.setState({
                     listFood: data.content,
                     totalPages: data.totalPages,
                     itemsCountPerPage: data.size,
                     totalItemsCount: data.totalElements
                 })
-            );
+            });
     }
 
     onChangeCategory = async () => {
@@ -71,10 +68,9 @@ export class FoodListComponent extends React.Component {
             category: this.refCategory.current.getCategory()
         });
         await this.setState({
-            ...this.state.page,
             activePage: 0
         })
-        this.fetchList(this.state.page.activePage);
+        this.fetchList(this.state.activePage);
     }
 
     onChangeHandler = (evt, key) => {
@@ -84,7 +80,7 @@ export class FoodListComponent extends React.Component {
     removeHandler = async (id) => {
         let url = 'http://localhost:8080/removeFoodById';
         await FetchUtil.fetchPost(url, id)
-            .then(value => this.fetchList(this.state.page.activePage));
+            .then(value => this.fetchList(this.state.activePage));
     }
 
     onClickReserve = async (indexFood) => {
@@ -92,13 +88,12 @@ export class FoodListComponent extends React.Component {
         const food = this.state.listFood[indexFood]
         food.idUser = LoggedProfile.getIdUser()
         await FetchUtil.fetchPost(url, JSON.stringify(food))
-            .then(value => this.fetchList(this.state.page.activePage));
+            .then(value => this.fetchList(this.state.activePage));
     }
 
     handlePageChange = (page) => {
         page = page - 1;
         this.setState({
-            ...this.state.page,
             activePage: page
         });
         this.fetchList(page)
@@ -108,27 +103,46 @@ export class FoodListComponent extends React.Component {
         return (
             <React.Fragment>
                 {this.props.isUser === true ?
-                    <React.Fragment>
-                        <h3>Just choose</h3>
-                        <OptionCategory ref={this.refCategory} categories={Constants.CATEGORIES_ALL}
-                                        onChange={this.onChangeCategory}/>
-                        <FoodComponent isUser={true} listFood={this.state.listFood}
-                                       onClickReserve={this.onClickReserve}/>
-                    </React.Fragment>
+                    <div className="d-flex justify-content-center m-3">
+                        <div className="card">
+                            <h3 className="card-header">Just choose</h3>
+                            <div className="card-body">
+                                <OptionCategory ref={this.refCategory} categories={Constants.CATEGORIES_ALL}
+                                                onChange={this.onChangeCategory}/>
+                                <div className="d-flex justify-content-center p-3">
+                                    <FoodComponent isUser={true} listFood={this.state.listFood}
+                                                   onClickReserve={this.onClickReserve}/>
+                                </div>
+                                <PaginationComponent activePage={this.state.activePage}
+                                                     itemsCountPerPage={this.state.itemsCountPerPage}
+                                                     totalItemsCount={this.state.totalItemsCount}
+                                                     handlePageChange={this.handlePageChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
                     :
                     <React.Fragment>
                         <AddFood onAdd={this.onButtonAddFood}/>
-                        <h3>All your Food</h3>
-                        <FoodComponent isUser={false} listFood={this.state.listFood}
-                                       onButtonRemove={this.removeHandler}/>
+                        <div className="d-flex justify-content-center">
+
+                            <div className="card m-3">
+                                <h3 className="card-header">All your Food</h3>
+                                <div className="card-body row justify-content-center">
+                                    <FoodComponent isUser={false} listFood={this.state.listFood}
+                                                   onButtonRemove={this.removeHandler}/>
+                                </div>
+                                <PaginationComponent activePage={this.state.activePage}
+                                                     itemsCountPerPage={this.state.itemsCountPerPage}
+                                                     totalItemsCount={this.state.totalItemsCount}
+                                                     handlePageChange={this.handlePageChange}
+                                />
+                            </div>
+                        </div>
+
                     </React.Fragment>
                 }
 
-                <PaginationComponent activePage={this.state.page.activePage}
-                                     itemsCountPerPage={this.state.page.itemsCountPerPage}
-                                     totalItemsCount={this.state.page.totalItemsCount}
-                                     handlePageChange={this.handlePageChange}
-                />
             </React.Fragment>
         )
     }

@@ -5,7 +5,7 @@ export class PaginationComponent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="d-flex justify-content-center">
                 <Pagination
                     hideNavigation
                     hideFirstLastPages
@@ -13,7 +13,7 @@ export class PaginationComponent extends React.Component {
                     itemsCountPerPage={this.props.itemsCountPerPage}
                     totalItemsCount={this.props.totalItemsCount}
                     itemClass='page-item'
-                    linkClass='btn btn-light'
+                    linkClass='btn btn-light '
                     onChange={this.props.handlePageChange}/>
             </div>
         )

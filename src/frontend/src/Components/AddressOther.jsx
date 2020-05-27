@@ -4,10 +4,10 @@ export class AddressOther extends React.Component {
 
     render() {
         return (
-            <ul>
-                <li>Phone: {this.props.phone}</li>
-                <li>E-mail: {this.props.email}</li>
-            </ul>
+            <p className="form-group text-left">
+                Phone: {this.props.phone}<br/>
+                E-mail: {this.props.email}
+            </p>
         )
     }
 }

@@ -9,19 +9,20 @@ export class ReservationsComponent extends React.Component {
         super();
         this.state = {
             reservations: [],
-
-            page: {
-                activePage: 0,
-                totalPages: 0,
-                itemsCountPerPage: 0,
-                totalItemsCount: 0,
-                pageSize: 5
-            }
+            title: "",
+            activePage: 0,
+            totalPages: 0,
+            itemsCountPerPage: 0,
+            totalItemsCount: 0,
+            pageSize: 5
         }
     }
 
     componentDidMount() {
-        this.fetchList(this.state.page.activePage);
+        this.fetchList(this.state.activePage);
+        this.setState({
+            title: this.props.isUser ? "My Reservations" : "Waiting to be picked up"
+        })
     }
 
     fetchList = async (page) => {
@@ -31,7 +32,7 @@ export class ReservationsComponent extends React.Component {
         } else {
             url = 'http://localhost:8080/getAllByIdProducerWithAddress';
         }
-        url += '?page=' + page + '&size=' + this.state.page.pageSize;
+        url += '?page=' + page + '&size=' + this.state.pageSize;
 
         body = LoggedProfile.getIdUser();
 
@@ -69,13 +70,12 @@ export class ReservationsComponent extends React.Component {
         const food = this.state.reservations[indexFood];
         food.idUser = 0;
         await FetchUtil.fetchPost(url, JSON.stringify(food))
-            .then(value => this.fetchList(this.state.page.activePage));
+            .then(value => this.fetchList(this.state.activePage));
     }
 
     handlePageChange = (page) => {
         page = page - 1;
         this.setState({
-            ...this.state.page,
             activePage: page
         });
         this.fetchList(page)
@@ -83,19 +83,28 @@ export class ReservationsComponent extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                {this.props.isUser === true ?
-                    <ReservationComponent isUser={true} reservations={this.state.reservations}
-                                          onClickCancel={this.onClickCancel}/>
-                    :
-                    <ReservationComponent isUser={false} reservations={this.state.reservations}
-                                          onClickDone={this.onClickDone}/>
-                }
-                <PaginationComponent activePage={this.state.page.activePage}
-                                     itemsCountPerPage={this.state.page.itemsCountPerPage}
-                                     totalItemsCount={this.state.page.totalItemsCount}
-                                     handlePageChange={this.handlePageChange}/>
-            </React.Fragment>
+            <div className="d-flex justify-content-center">
+                <div className="card m-3">
+                    <h2 className="card-header">{this.state.title}</h2>
+                    <div className="card-body row">
+
+                        {this.props.isUser === true ?
+                            <ReservationComponent isUser={true} reservations={this.state.reservations}
+                                                  onClickCancel={this.onClickCancel}/>
+                            :
+                            <ReservationComponent isUser={false} reservations={this.state.reservations}
+                                                  onClickDone={this.onClickDone}/>
+                        }
+
+                    </div>
+                    <PaginationComponent activePage={this.state.activePage}
+                                         itemsCountPerPage={this.state.itemsCountPerPage}
+                                         totalItemsCount={this.state.totalItemsCount}
+                                         handlePageChange={this.handlePageChange}/>
+                </div>
+            </div>
+
+
         )
     }
 }

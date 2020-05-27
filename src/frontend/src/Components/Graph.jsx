@@ -19,10 +19,11 @@ export class Graph extends Component {
                     label: 'Population',
                     data: [],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)'
+                        'rgba(200, 200, 230, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(75, 230, 150, 0.8)'
                     ]
                 }
             ]
@@ -50,27 +51,33 @@ export class Graph extends Component {
                 statistics: res.data
             })
         });
-
-
     }
 
 
     render() {
         return (
-            <Pie
-                data={this.state.chartData}
-                options={{
-                    title:{
-                        display:this.props.displayTitle,
-                        text:'Largest Cities In '+this.props.location,
-                        fontSize:50
-                    },
-                    legend:{
-                        display:this.props.displayLegend,
-                        position:this.props.legendPosition
-                    }
-                }}
-            />
+            <div className="d-flex justify-content-center">
+                <div className="card w-75 m-5">
+                    <div className="card-body">
+                        <Pie
+                            data={this.state.chartData}
+                            options={{
+                                title: {
+                                    display: true,
+                                    text: 'Most traded with ' + this.props.category,
+                                    fontSize: 40
+                                },
+                                legend: {
+                                    position: this.props.legendPosition,
+                                    labels: {
+                                        boxWidth: 20
+                                    }
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
         );
     }
 }

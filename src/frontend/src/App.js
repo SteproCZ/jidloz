@@ -26,7 +26,7 @@ function App() {
                 <Navbar {...{loggedIN}}/>
 
                 <Switch>
-                    <Route exact path="/" component={Main}/>
+                    <Route exact path="/" component={() => <Graph legendPosition="bottom" category={"Vegetables"}/>}/>
 
                     <Route path="/about" component={About}/>
 
@@ -34,13 +34,13 @@ function App() {
 
                     <Route path="/logout" render={(routeProps) => <Logout {...{setLoggedIN, ...routeProps}}/>}/>
 
-                    <Route path="/producer" component={ListFoodProducerFun}/>
+                    <Route path="/producer" component={() => <FoodListComponent isUser={false}/>}/>
 
-                    <Route path="/user" component={ListFoodFun}/>
+                    <Route path="/user" component={() => <FoodListComponent isUser={true}/>}/>
 
-                    <Route path="/reservations/user" component={ReservationsUserFun}/>
+                    <Route path="/reservations/user" component={() => <ReservationsComponent isUser={true}/>}/>
 
-                    <Route path="/reservations/producer" component={ReservationsProducerFun}/>
+                    <Route path="/reservations/producer" component={() => <ReservationsComponent isUser={false}/>}/>
 
                     <Route path="/registration/user" component={RegistrationUser}/>
 
@@ -51,63 +51,18 @@ function App() {
     );
 }
 
-function Main() {
-    return (
-        <div>
-            <h2>Main</h2>
-            <Graph/>
-        </div>
-    );
-}
-
-
-function ReservationsUserFun() {
-    return (
-        <div>
-            <h2>My reservations</h2>
-            <ReservationsComponent isUser={true}/>
-        </div>
-    );
-}
-
-function ReservationsProducerFun() {
-    return (
-        <div>
-            <h2>Waiting to be picked up</h2>
-            <ReservationsComponent isUser={false}/>
-        </div>
-    );
-}
-
-
-function ListFoodFun() {
-    return (
-        <div>
-            <h2>List Food</h2>
-            <FoodListComponent isUser={true}/>
-        </div>
-    );
-}
-
-function ListFoodProducerFun() {
-    return (
-        <div>
-            <h2>Our product Food</h2>
-            <FoodListComponent isUser={false}/>
-        </div>
-    );
-}
-
-
 function About() {
     return (
-        <div>
-            <h2>About</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
-                commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim
-                id est laborum.</p>
+        <div className="card p-4">
+            <h2 className="h1">About</h2>
+            <div className="card-body">
+                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
+                    commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim
+                    id est laborum.</p>
+            </div>
+
         </div>
     );
 }
