@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import LoggedProfile from "./LoggedProfile";
 
-export class Navbar extends React.Component {
+export class NavbarComponent extends React.Component {
 
     render() {
         return (

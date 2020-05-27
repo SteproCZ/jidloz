@@ -17,8 +17,6 @@ export class RegistrationUser extends React.Component {
     }
 
     onButtonRegistration = () => {
-        //UserService.registration()
-
         PublicService.registrationUser(this.state.user).then(res => {
             if (res.data.status === 200) {
                 this.props.history.push('/login');

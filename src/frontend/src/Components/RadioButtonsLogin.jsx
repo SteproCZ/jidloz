@@ -9,10 +9,6 @@ export class RadioButtonsLogin extends React.Component {
         }
     }
 
-    getIsUser = () => {
-        return this.state.isUser;
-    }
-
     onButtonLoginUser = () => {
         this.setState({
             isUser: true

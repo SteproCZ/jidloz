@@ -3,17 +3,14 @@ import './App.css';
 import {Login} from "./Components/Login";
 import {RegistrationUser} from "./Components/RegistrationUser";
 import {RegistrationProducer} from "./Components/RegistrationProducer";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
-import {Navbar} from "./Components/Navbar";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {NavbarComponent} from "./Components/NavbarComponent";
 import {FoodListComponent} from "./Components/FoodListComponent";
 import {ReservationsComponent} from "./Components/ReservationsComponent";
 import {Logout} from "./Components/Logout";
 import AuthService from "./service/AuthService";
 import {Graph} from "./Components/Graph";
+import {About} from "./Components/About";
 
 
 function App() {
@@ -23,7 +20,7 @@ function App() {
 
         <Router>
             <div className="App">
-                <Navbar {...{loggedIN}}/>
+                <NavbarComponent {...{loggedIN}}/>
 
                 <Switch>
                     <Route exact path="/" component={() => <Graph legendPosition="bottom" category={"Vegetables"}/>}/>
@@ -48,22 +45,6 @@ function App() {
                 </Switch>
             </div>
         </Router>
-    );
-}
-
-function About() {
-    return (
-        <div className="card p-4">
-            <h2 className="h1">About</h2>
-            <div className="card-body">
-                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
-                    commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim
-                    id est laborum.</p>
-            </div>
-
-        </div>
     );
 }
 

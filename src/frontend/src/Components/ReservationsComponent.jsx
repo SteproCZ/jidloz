@@ -51,16 +51,7 @@ export class ReservationsComponent extends React.Component {
 
     onClickDone = (indexFood) => {
         const food = this.state.reservations[indexFood];
-        console.log(food.id);
-        let url;
-        /*
-            url = 'http://localhost:8080/removeFoodById';
-            FetchUtil.fetchPost(url, food.id)
-                .then(value => this.fetchList(this.state.page.activePage));*/
-
-        console.log(food.category);
-
-        url = 'http://localhost:8080/statisticIncrementation';
+        let url = 'http://localhost:8080/statisticIncrementation';
         FetchUtil.fetchPost(url, food.category)
             .then();
     }

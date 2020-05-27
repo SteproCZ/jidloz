@@ -38,7 +38,7 @@ export class FoodListComponent extends React.Component {
         let url;
         let body;
 
-        if (this.props.isUser === true) {//User - reserve
+        if (this.props.isUser === true) {
             if (this.state.category === "All") {
                 url = 'http://localhost:8080/getAllFreeFood?page=';
             } else {
@@ -71,10 +71,6 @@ export class FoodListComponent extends React.Component {
             activePage: 0
         })
         this.fetchList(this.state.activePage);
-    }
-
-    onChangeHandler = (evt, key) => {
-        this.setState({[key]: evt.target.value})
     }
 
     removeHandler = async (id) => {

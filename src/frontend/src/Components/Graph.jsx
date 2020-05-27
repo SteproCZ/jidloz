@@ -45,15 +45,6 @@ export class Graph extends Component {
         })
     }
 
-    method() {
-        PublicService.getStatInfo().then(res => {
-            this.setState({
-                statistics: res.data
-            })
-        });
-    }
-
-
     render() {
         return (
             <div className="d-flex justify-content-center">
