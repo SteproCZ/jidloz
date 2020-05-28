@@ -26,32 +26,25 @@ export class FoodListComponent extends React.Component {
         this.fetchList(this.state.activePage);
     }
 
-    onButtonAddFood = async (food) => {
+    onButtonAddFood = (food) => {
         food.idProducer = LoggedProfile.getIdUser();
-        let url = 'http://localhost:8080/addFood';
+        let url = Constants.WEB_ADDRESS + 'addFood';
 
-        await FetchUtil.fetchPost(url, JSON.stringify(food))
+        FetchUtil.fetchPost(url, JSON.stringify(food))
             .then(value => this.fetchList(this.state.activePage));
     }
 
-    fetchList = async (page) => {
+    fetchList = (page) => {
         let url;
-        let body;
 
         if (this.props.isUser === true) {
-            if (this.state.category === "All") {
-                url = 'http://localhost:8080/getAllFreeFood?page=';
-            } else {
-                url = 'http://localhost:8080/getAllFreeFoodByCategory?page=';
-                body = this.state.category
-            }
-        } else {//Producer - add
-            url = 'http://localhost:8080/getAllFreeFoodByIdProducer?page=';
-            body = LoggedProfile.getIdUser();
+            url = Constants.WEB_ADDRESS + 'getAllFreeFood?category=' + this.state.category + '&page=';
+        } else {
+            url = Constants.WEB_ADDRESS + 'getAllFreeFoodByIdProducer/'+LoggedProfile.getIdUser()+'?page=';
         }
         url += page + '&size=' + this.state.pageSize;
 
-        await FetchUtil.fetchPost(url, body)
+        FetchUtil.fetchGet(url)
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -63,24 +56,22 @@ export class FoodListComponent extends React.Component {
             });
     }
 
-    onChangeCategory = async () => {
-        await this.setState({
-            category: this.refCategory.current.getCategory()
-        });
-        await this.setState({
+    onChangeCategory = () => {
+        this.setState({
+            category: this.refCategory.current.getCategory(),
             activePage: 0
-        })
-        this.fetchList(this.state.activePage);
+        });
+        this.fetchList(0);
     }
 
-    removeHandler = async (id) => {
-        let url = 'http://localhost:8080/removeFoodById';
-        await FetchUtil.fetchPost(url, id)
+    removeHandler = (id) => {
+        let url = Constants.WEB_ADDRESS + 'removeFoodById';
+        FetchUtil.fetchPost(url, id)
             .then(value => this.fetchList(this.state.activePage));
     }
 
     onClickReserve = async (indexFood) => {
-        let url = 'http://localhost:8080/reserveFood';
+        let url = Constants.WEB_ADDRESS + 'reserveFood';
         const food = this.state.listFood[indexFood]
         food.idUser = LoggedProfile.getIdUser()
         await FetchUtil.fetchPost(url, JSON.stringify(food))
@@ -95,54 +86,57 @@ export class FoodListComponent extends React.Component {
         this.fetchList(page)
     }
 
+    isUser(){
+        return this.props.isUser === true;
+    }
+
     render() {
         return (
             <React.Fragment>
-                {this.props.isUser === true ?
-                    <div className="d-flex justify-content-center m-3">
-                        <div className="card">
-                            <h3 className="card-header">Just choose</h3>
-                            <div className="card-body">
-                                <div className="m-3">
-                                    <OptionCategory ref={this.refCategory}
-                                                    categories={Constants.CATEGORIES_ALL}
-                                                    onChange={this.onChangeCategory}/>
-                                </div>
-                                <div className="d-flex justify-content-center">
-                                    <FoodComponent isUser={true} listFood={this.state.listFood}
-                                                   onClickReserve={this.onClickReserve}/>
-                                </div>
-                                <PaginationComponent activePage={this.state.activePage}
-                                                     itemsCountPerPage={this.state.itemsCountPerPage}
-                                                     totalItemsCount={this.state.totalItemsCount}
-                                                     handlePageChange={this.handlePageChange}
-                                />
-                            </div>
+                {this.isUser() ? null : <AddFood onAdd={this.onButtonAddFood}/>}
+                <div className="d-flex justify-content-center m-3">
+                    <div className="card">
+                        <h3 className="card-header">{this.isUser() ? "Just choose" : "All your Food"}</h3>
+                        <div className="card-body">
+                            {this.isUser() ? this.userFragment() : this.producerFragment()}
+                            <PaginationComponent activePage={this.state.activePage}
+                                                 itemsCountPerPage={this.state.itemsCountPerPage}
+                                                 totalItemsCount={this.state.totalItemsCount}
+                                                 handlePageChange={this.handlePageChange}/>
                         </div>
                     </div>
-                    :
-                    <React.Fragment>
-                        <AddFood onAdd={this.onButtonAddFood}/>
-                        <div className="d-flex justify-content-center">
-
-                            <div className="card m-3">
-                                <h3 className="card-header">All your Food</h3>
-                                <div className="card-body row justify-content-center">
-                                    <FoodComponent isUser={false} listFood={this.state.listFood}
-                                                   onButtonRemove={this.removeHandler}/>
-                                </div>
-                                <PaginationComponent activePage={this.state.activePage}
-                                                     itemsCountPerPage={this.state.itemsCountPerPage}
-                                                     totalItemsCount={this.state.totalItemsCount}
-                                                     handlePageChange={this.handlePageChange}
-                                />
-                            </div>
-                        </div>
-
-                    </React.Fragment>
-                }
-
+                </div>
             </React.Fragment>
         )
+    }
+
+    producerFragment() {
+        return (
+            <div className="d-flex justify-content-center">
+                <FoodComponent isUser={false} listFood={this.state.listFood}
+                               className="btn btn-danger btn-block"
+                               onButtonRemove={this.removeHandler}
+                               onClickHandler={this.onClickReserve}
+                               text="Remove"/>
+            </div>
+        );
+    }
+
+    userFragment() {
+        return (
+            <React.Fragment>
+                <div className="m-3">
+                    <OptionCategory ref={this.refCategory}
+                                    categories={Constants.CATEGORIES_ALL}
+                                    onChange={this.onChangeCategory}/>
+                </div>
+                <div className="d-flex justify-content-center">
+                    <FoodComponent isUser={true} listFood={this.state.listFood}
+                                   className="btn btn-success btn-block"
+                                   onClickHandler={this.onClickReserve}
+                                   text="Reserve"/>
+                </div>
+            </React.Fragment>
+        );
     }
 }

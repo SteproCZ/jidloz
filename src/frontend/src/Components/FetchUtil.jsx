@@ -13,4 +13,15 @@ export default class FetchUtil {
 
         return fetch(url, requestOptions);
     }
+
+    static fetchGet(url) {
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: '' + AuthService.getUserInfo().token}
+        };
+
+        return fetch(url, requestOptions);
+    }
 }

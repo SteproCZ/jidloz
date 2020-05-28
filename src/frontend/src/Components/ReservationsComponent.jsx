@@ -3,6 +3,7 @@ import LoggedProfile from "./LoggedProfile";
 import FetchUtil from "./FetchUtil";
 import {PaginationComponent} from "./PaginationComponent";
 import {ReservationComponent} from "./ReservationComponent";
+import * as Constants from "./Constants";
 
 export class ReservationsComponent extends React.Component {
     constructor() {
@@ -26,17 +27,15 @@ export class ReservationsComponent extends React.Component {
     }
 
     fetchList = async (page) => {
-        let url, body;
+        let url;
         if (this.props.isUser) {
-            url = 'http://localhost:8080/getAllByIdUserWithAddress';
+            url = Constants.WEB_ADDRESS+'getAllByIdUserWithAddress';
         } else {
-            url = 'http://localhost:8080/getAllByIdProducerWithAddress';
+            url = Constants.WEB_ADDRESS+'getAllByIdProducerWithAddress';
         }
-        url += '?page=' + page + '&size=' + this.state.pageSize;
+        url += '/'+LoggedProfile.getIdUser()+'?page=' + page + '&size=' + this.state.pageSize;
 
-        body = LoggedProfile.getIdUser();
-
-        await FetchUtil.fetchPost(url, body)
+        await FetchUtil.fetchGet(url)
             .then(response => response.json())
             .then(data => {
                     this.setState({
@@ -51,19 +50,13 @@ export class ReservationsComponent extends React.Component {
 
     onClickDone = (indexFood) => {
         const food = this.state.reservations[indexFood];
-        let url = 'http://localhost:8080/removeFoodById';
-
-        FetchUtil.fetchPost(url, food.id)
+        let url = Constants.WEB_ADDRESS+'removeFood';
+        FetchUtil.fetchPost(url, JSON.stringify(food))
             .then(value => this.fetchList(this.state.activePage));
-
-        url = 'http://localhost:8080/statisticIncrementation';
-
-        FetchUtil.fetchPost(url, food.category)
-            .then();
     }
 
     onClickCancel = async (indexFood) => {
-        let url = 'http://localhost:8080/unReserveFood';
+        let url = Constants.WEB_ADDRESS+'unReserveFood';
         const food = this.state.reservations[indexFood];
         food.idUser = 0;
         await FetchUtil.fetchPost(url, JSON.stringify(food))

@@ -5,12 +5,15 @@ import cz.upce.jidloz.dao.ProducerDAO;
 import cz.upce.jidloz.dao.UserDAO;
 import cz.upce.jidloz.model.*;
 import cz.upce.jidloz.service.FoodService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +40,14 @@ public class FoodServiceImpl implements FoodService {
         foodDAO.save(food);
     }
 
+
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
     @Override
     public void save(FoodDto foodDto) {
-        Food food = new Food();
-        food.setCategory(foodDto.getCategory());
-        food.setDescription(foodDto.getDescription());
-        food.setId(foodDto.getId());
-        food.setIdProducer(foodDto.getIdProducer());
-        food.setIdUser(foodDto.getIdUser());
-        food.setName(foodDto.getName());
-        food.setPrice(foodDto.getPrice());
+        Food food = new ModelMapper().map(foodDto, Food.class);
         foodDAO.save(food);
     }
 
@@ -62,8 +63,6 @@ public class FoodServiceImpl implements FoodService {
     public void deleteById(int id) {
         foodDAO.deleteById(id);
     }
-
-
 
     @Override
     public void removeFoodById(int id) {
@@ -83,6 +82,16 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Page<Food> findAllByIdUser(int idUser, Pageable pageable) {
         return foodDAO.findAllByIdUser(idUser, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllByIdUser(int idUser, String category, Pageable pageable) {
+        System.out.println(category);
+        if(category != null){
+            return foodDAO.findAllByIdUserAndCategory(idUser, category, pageable);
+        }else{
+            return foodDAO.findAllByIdUser(idUser, pageable);
+        }
     }
 
     @Override

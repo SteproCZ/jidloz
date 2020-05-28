@@ -6,9 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import cz.upce.jidloz.model.Producer;
 import cz.upce.jidloz.model.User;
 import cz.upce.jidloz.model.UserDto;
 import cz.upce.jidloz.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -73,13 +75,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User save(UserDto user) {
-	    User newUser = new User();
+		User newUser = new ModelMapper().map(user, User.class);
+	    /*User newUser = new User();
 	    newUser.setUsername(user.getUsername());
 	    newUser.setFirstName(user.getFirstName());
-	    newUser.setLastName(user.getLastName());
+	    newUser.setLastName(user.getLastName());*/
 	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		newUser.setEmail(user.getEmail());
-		newUser.setPhone(user.getPhone());
+		/*newUser.setEmail(user.getEmail());
+		newUser.setPhone(user.getPhone());*/
         return UserDAO.save(newUser);
     }
 }

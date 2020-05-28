@@ -15,7 +15,6 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 public class ProducerController {
 
-
     @Autowired
     private ProducerService producerService;
 
@@ -34,7 +33,7 @@ public class ProducerController {
         return producerService.findByIdUser(idUser) != null;
     }
 
-    @PostMapping("/getProducerByIdUser")
+    @GetMapping("/getProducerByIdUser")
     public Producer getAllFoodByIdProducer(@RequestBody int idUser) {
         return producerService.findByIdUser(idUser);
     }

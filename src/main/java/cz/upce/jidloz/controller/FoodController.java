@@ -4,16 +4,13 @@ import cz.upce.jidloz.model.Food;
 import cz.upce.jidloz.model.FoodAndAddress;
 import cz.upce.jidloz.model.FoodDto;
 import cz.upce.jidloz.service.FoodService;
+import cz.upce.jidloz.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 
 @RestController
@@ -24,6 +21,9 @@ public class FoodController {
 
     @Autowired
     private FoodService foodService;
+
+    @Autowired
+    private StatisticService statisticService;
 
     @PostMapping("/addFood")
     public void addFood(@RequestBody FoodDto food) {
@@ -40,62 +40,38 @@ public class FoodController {
         foodService.reserveFood(food);
     }
 
-    @PostMapping("/getFoodById")
-    public Food get(@RequestBody int id) {
-        return foodService.findById(id);
+    @GetMapping("/getAllFreeFoodByIdProducer/{idUser}")
+    public Page<Food> getAllFreeFoodByIdProducer(@PathVariable int idUser, Pageable pageable) {
+        return foodService.findAllByIdUserAndIdProducer(defaultIdUser, idUser, pageable);
     }
 
-    @PostMapping("/getAllFood")
-    public Page<Food> getAllFood(Pageable pageable) {
-        return foodService.findAll(pageable);
-    }
-
-    @PostMapping("/getAllFreeFood")
-    public Page<Food> getAllFreeFood(Pageable pageable) {
-        return foodService.findAllByIdUser(defaultIdUser, pageable);
-    }
-
-    @PostMapping("/getAllFoodByIdProducer")
-    public Page<Food> getAllFoodByIdProducer(@RequestBody int idProducer, Pageable pageable) {
-        return foodService.findAllByIdProducer(idProducer, pageable);
-    }
-
-    @PostMapping("/getAllFreeFoodByIdProducer")
-    public Page<Food> getAllFreeFoodByIdProducer(@RequestBody int idProducer, Pageable pageable) {
-        return foodService.findAllByIdUserAndIdProducer(defaultIdUser, idProducer, pageable);
-    }
-
-    @PostMapping("/getAllFoodByIdUser")
-    public Page<Food> getAllFoodByIdUser(@RequestBody int idUser, Pageable pageable) {
+    @GetMapping("/getAllFoodByIdUser/{idUser}")
+    public Page<Food> getAllFoodByIdUser(@PathVariable int idUser, Pageable pageable) {
         return foodService.findAllByIdUser(idUser, pageable);
     }
 
-    @PostMapping("/getAllByIdUserWithAddress")
-    public Page<FoodAndAddress> getAllByIdUserWithAddress(@RequestBody int idUser, Pageable pageable) {
+    @GetMapping("/getAllByIdUserWithAddress/{idUser}")
+    public Page<FoodAndAddress> getAllByIdUserWithAddress(@PathVariable int idUser, Pageable pageable) {
         return foodService.findAllByIdUserWithAddress(idUser, pageable);
     }
 
-    @PostMapping("/getAllByIdProducerWithAddress")
-    public Page<FoodAndAddress> findAllByIdProducerWithAddress(@RequestBody int idProducer, Pageable pageable) {
-        return foodService.findAllByIdProducerWithAddress(idProducer, pageable);
+    @GetMapping("/getAllByIdProducerWithAddress/{idUser}")
+    public Page<FoodAndAddress> findAllByIdProducerWithAddress(@PathVariable int idUser, Pageable pageable) {
+        return foodService.findAllByIdProducerWithAddress(idUser, pageable);
     }
 
-    @PostMapping("/getAllFreeFoodByCategory")
-    public Page<Food> findAllByIdUserAndCategory(@RequestBody String category, Pageable pageable) {
-         return foodService.findAllByIdUserAndCategory(defaultIdUser, category, pageable);
-    }
-    @PostMapping("/findAllByIdUserAndCategory")
-    public Page<Food> findAllByIdUserAndCategory(@RequestBody Food food, Pageable pageable) {
-        return foodService.findAllByIdUserAndCategory(food.getIdUser(), food.getCategory(), pageable);
-    }
-    @PostMapping("/findAllByCategory")
-    public Page<Food> findAllByCategory(@RequestBody String category, Pageable pageable) {
-        return foodService.findAllByCategory(category, pageable);
+    @GetMapping("/getAllFreeFood")
+    public Page<Food> getAllFreeFood(Pageable pageable, String category) {
+        if(category == null || category.equals("All"))
+            return foodService.findAllByIdUser(defaultIdUser, pageable);
+        return foodService.findAllByIdUserAndCategory(defaultIdUser, category, pageable);
     }
 
     @Transactional
-    @PostMapping("/removeFoodById")
-    public void removeFoodById(@RequestBody int id) {
-        foodService.removeFoodById(id);
+    @PostMapping("/removeFood")
+    public void removeFood(@RequestBody Food food) {
+        foodService.removeFoodById(food.getId());
+        statisticService.statisticIncrementation(food.getCategory());
     }
+
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import FetchUtil from "./FetchUtil";
 import LoggedProfile from "./LoggedProfile";
+import * as Constants from "./Constants";
 
 export class RegistrationProducer extends React.Component {
 
@@ -18,7 +19,7 @@ export class RegistrationProducer extends React.Component {
     }
 
     onButtonRegistration = async () => {
-        let url = 'http://localhost:8080/registrationProducer';
+        let url = Constants.WEB_ADDRESS+'registrationProducer';
 
         await this.setState({
             producer: {

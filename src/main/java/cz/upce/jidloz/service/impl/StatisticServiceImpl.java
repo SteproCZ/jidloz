@@ -4,6 +4,7 @@ import cz.upce.jidloz.dao.StatisticDAO;
 import cz.upce.jidloz.dao.UserDAO;
 import cz.upce.jidloz.model.*;
 import cz.upce.jidloz.service.StatisticService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public void addStatistic(StatisticDto statisticDto) {
-        Statistic statistic = new Statistic();
-        statistic.setNumber(statisticDto.getNumber());
-        statistic.setCategory(statisticDto.getCategory());
-        statistic.setId(statisticDto.getId());
+        Statistic statistic = new ModelMapper().map(statisticDto, Statistic.class);
         statisticDAO.save(statistic);
     }
 
