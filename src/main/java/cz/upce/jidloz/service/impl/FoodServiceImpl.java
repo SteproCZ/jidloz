@@ -40,11 +40,6 @@ public class FoodServiceImpl implements FoodService {
         foodDAO.save(food);
     }
 
-
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
     @Override
     public void save(FoodDto foodDto) {
         Food food = new ModelMapper().map(foodDto, Food.class);
