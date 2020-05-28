@@ -53,9 +53,6 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public Page<Food> findAll(Pageable pageable) {
-        /*Page<Food> list = (Page<Food>) new ArrayList<Food>();
-        FoodDAO.findAll(pageable).iterator().forEachRemaining(list::);
-        return list;*/
         return foodDAO.findAll(pageable);
     }
 
