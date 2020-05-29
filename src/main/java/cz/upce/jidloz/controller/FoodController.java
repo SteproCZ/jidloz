@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class FoodController {
 
     private static int defaultIdUser = 0;
