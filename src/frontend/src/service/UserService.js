@@ -1,7 +1,8 @@
 import axios from 'axios';
 import AuthService from './AuthService';
+import {WEB_ADDRESS} from "../Components/Constants";
 
-const USER_API_BASE_URL = 'http://localhost:8080/users';
+const USER_API_BASE_URL = WEB_ADDRESS+'users';
 
 class UserService {
 
